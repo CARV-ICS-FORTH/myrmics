@@ -1,0 +1,148 @@
+PATH = /home/lyberis/tools/mb/bin:/home/lyberis/tools/scoop:/bin:/usr/bin
+
+OBJECTS = obj/myrmics/arch/mb/vectors.mb.o \
+	  obj/myrmics/arch/mb/boot.mb.o \
+	  obj/myrmics/arch/mb/exec.mb.o \
+	  obj/myrmics/arch/mb/cache.mb.o \
+	  obj/myrmics/arch/mb/uart.mb.o \
+	  obj/myrmics/arch/mb/math.mb.o \
+	  obj/myrmics/arch/mb/panic.mb.o \
+	  obj/myrmics/arch/mb/timer.mb.o \
+	  obj/myrmics/arch/mb/irq.mb.o \
+	  obj/myrmics/arch/mb/comm.mb.o \
+	  obj/myrmics/arch/mb/init.mb.o \
+	  obj/myrmics/kt/string.mb.o \
+	  obj/myrmics/kt/print.mb.o \
+	  obj/myrmics/kt/trie.mb.o \
+	  obj/myrmics/kt/list.mb.o \
+	  obj/myrmics/kt/kalloc.mb.o \
+	  obj/myrmics/kt/ascii85.mb.o \
+	  obj/myrmics/dbg/trace.mb.o \
+	  obj/myrmics/dbg/stats.mb.o \
+	  obj/myrmics/noc/init.mb.o \
+	  obj/myrmics/noc/message.mb.o \
+	  obj/myrmics/noc/dma.mb.o \
+	  obj/myrmics/mm/slab.mb.o \
+	  obj/myrmics/mm/region.mb.o \
+	  obj/myrmics/mm/distr.mb.o \
+	  obj/myrmics/mm/mm.mb.o \
+	  obj/myrmics/pr/event.mb.o \
+	  obj/myrmics/pr/config.mb.o \
+	  obj/myrmics/pr/init.mb.o \
+	  obj/myrmics/pr/task.mb.o \
+	  obj/myrmics/pr/schedule.mb.o \
+	  obj/myrmics/pr/dependency.mb.o \
+	  obj/myrmics/sys/alloc.mb.o \
+	  obj/myrmics/sys/task.mb.o \
+	  obj/myrmics/sys/misc.mb.o \
+	  obj/myrmics/vid/video.mb.o \
+	  obj/myrmics/vid/demo_myrmics.scoop.mb.o \
+	  obj/myrmics/vid/demo_myrmics_vid.mb.o \
+	  obj/myrmics/bench/test_myrmics.scoop.mb.o \
+	  obj/myrmics/bench/matrix_mult_myrmics.scoop.mb.o \
+	  obj/myrmics/bench/jacobi_myrmics.scoop.mb.o \
+	  obj/myrmics/bench/bitonic_myrmics.scoop.mb.o \
+	  obj/myrmics/bench/fft_myrmics_noscoop.mb.o \
+	  obj/myrmics/bench/kmeans_myrmics.scoop.mb.o \
+	  obj/myrmics/bench/cray_myrmics.scoop.mb.o \
+	  obj/myrmics/bench/md5_myrmics.scoop.mb.o \
+	  obj/myrmics/bench/multilevel_myrmics.scoop.mb.o \
+	  obj/myrmics/bench/barnes_myrmics.scoop.mb.o \
+	  obj/myrmics/myrmics_main.mb.o
+
+TARGET = myrmics.mb.elf
+SCRIPT = linker.myrmics.mb.ld
+INCLUDE = include
+
+TARGET_FOR_INCLUSION = myrmics.mb.elf.ld
+
+# C_USE_HW_MUL		-m[no-]xl-soft-mul
+# C_USE_HW_MUL == 2	-m[no-]xl-multiply-high
+# C_USE_DIV		-m[no-]xl-soft-div
+# C_USE_BARREL		-m[no-]xl-barrel-shift
+# C_USE_PCMP_INSTR	-m[no-]xl-pattern-compare
+# C_USE_FPU		-mhard-float | -msoft-float
+# C_USE_FPU == 2    	-mxl-float-convert, -mxl-float-sqrt
+CFLAGS = -mcpu=v8.00.b -mno-xl-soft-mul -mno-xl-multiply-high \
+	 -mxl-soft-div -mxl-barrel-shift -mxl-pattern-compare \
+	 -mlittle-endian -mhard-float -fsingle-precision-constant \
+	 -mxl-float-convert -mxl-float-sqrt -Wall -O2
+
+SCOOPFLAGS = --runtime=myrmics \
+	     --tpcIncludePath=/home/lyberis/tools/scoop/headers \
+	     -I/home/lyberis/tools/scoop/headers
+
+STR_CLN = "[1m[ [31mCLN [0;1m][0m"
+STR_GCC = "[1m[ [32mGCC [0;1m][0m"
+STR_ASM = "[1m[ [33mASM [0;1m][0m"
+STR_LNK = "[1m[ [35mLNK [0;1m][0m"
+STR_BIN = "[1m[ [36mOBJ [0;1m][0m"
+STR_DEP = "[1m[ [34mDEP [0;1m][0m"
+STR_DMP = "[1m[ [36mDMP [0;1m][0m"
+STR_SCO = "[1m[ [37mSCO [0;1m][0m"
+
+
+all: $(TARGET) $(TARGET_FOR_INCLUSION)
+
+
+$(TARGET): $(OBJECTS) $(SCRIPT)
+	@echo $(STR_LNK) $@
+	@mb-ld -N -M -T $(SCRIPT) $(OBJECTS) --format elf32-microblazele --oformat elf32-microblazele -o $@ > $(@:.elf=.map)
+
+%.scoop.c: %.c
+	@echo $(STR_SCO) $<
+	@rm -f $@
+	@scoop --out-name=$(basename $@) \
+	      --myrmics-main-function=$(notdir $(basename $<)) \
+	      $(SCOOPFLAGS) -I$(INCLUDE) $<
+	@rm -f cf-graph.dot graph-begin.dot
+
+obj/myrmics/%.mb.o: %.s
+	@echo $(STR_ASM) $<
+	@mkdir -p $(dir $@)
+	@mb-as $< -mlittle-endian -o $@
+
+obj/myrmics/%.mb.o: %.c dep/myrmics/%.mb.d
+	@echo $(STR_GCC) $<
+	@mkdir -p $(dir $@)
+	@mb-gcc -DARCH_MB -DMYRMICS -c $(CFLAGS) -I$(INCLUDE) $< -o $@
+
+%.elf.ld: %.elf
+	@echo $(STR_BIN) $@
+	@mb-objcopy -O binary --gap-fill 0 $< $(<:.elf=.bin)
+	@chmod -x $(<:.elf=.bin)
+	@od -v -An -t x4 -w4 $(<:.elf=.bin) | awk '{print "LONG(0x"$$1")"}' > $@
+
+
+dep/myrmics/%.mb.d: %.c
+	@echo $(STR_DEP) $@
+	@mkdir -p $(dir $@)
+	@mb-gcc -DARCH_MB -DMYRMICS -M -I$(INCLUDE) $< | \
+	 sed 's,[a-zA-Z0-9_\.]*.o:,$(<:%.c=obj/myrmics/%.mb.o):,' > $@
+
+.SECONDARY: $(OBJECTS:obj/myrmics/%.o=dep/myrmics/%.d) \
+	    $(OBJECTS:obj/myrmics/%.scoop.mb.o=%.scoop.c)
+
+ifneq ($(MAKECMDGOALS),clean)
+-include $(OBJECTS:obj/myrmics/%.o=dep/myrmics/%.d)
+endif
+
+
+
+.PHONY: clean dump
+
+clean:
+	@echo $(STR_CLN) $(words $(OBJECTS)) Myrmics MicroBlaze object files, $(TARGET)
+	@rm -f $(OBJECTS) \
+	       $(OBJECTS:obj/myrmics/%.o=dep/myrmics/%.d) \
+	       $(OBJECTS:obj/myrmics/%.scoop.mb.o=%.scoop.c) \
+	       $(TARGET) \
+	       $(TARGET:.elf=.map) \
+	       $(TARGET:.elf=.bin) \
+	       $(TARGET:.elf=.dump) \
+	       $(TARGET_FOR_INCLUSION)
+
+dump: $(TARGET)
+	@echo $(STR_DMP) $(TARGET:.elf=.dump)
+	@mb-objdump -D $(TARGET) > $(TARGET:.elf=.dump)
+

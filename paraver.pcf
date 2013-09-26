@@ -1,0 +1,146 @@
+DEFAULT_OPTIONS
+LEVEL                   CPU
+UNITS                   NANOSEC
+LOOK_BACK               100
+SPEED                   1
+YMAX_SCALE              20
+NUM_OF_STATE_COLORS     43
+
+
+DEFAULT_SEMANTIC
+
+THREAD_FUNC         State As Is
+
+
+STATES
+0       Idle
+1       Execute Req
+2       Alloc Req
+3       Bulk Alloc Req
+4       Free Req
+5       Region Alloc Req
+6       Region Alloc Orphan Req
+7       Region Free Req
+8       Region Free Update Parent Req
+9       Pack Req
+10      Query Pointer Req
+11      Get Pages Req
+12      Get Region IDs Req
+13      Load Report Req
+14      Shutdown Req
+15      Spawn Req
+16      Delegate Req
+17      Self Region Alloc Update Parent
+18      Self Pack Merge
+19      Self Region Free Wait Children
+20      Dep Start Req
+21      Alloc Reply
+22      Bulk Alloc Reply
+23      Free Reply
+24      Region Alloc Reply
+25      Region Free Reply
+26      Query Pointer Reply
+27      Pack Reply
+28      Get Pages Reply
+29      Get Region IDs Reply
+30      Execute Reply
+31      Dep Route Req
+32      Execute Done Req
+33      Worker Wait
+34      Dep Enqueue Req
+35      Dep OK Req
+36      Dep Stop Req
+37      Dep Child Free Req
+38      Update Location Req
+39      Self Schedule Result
+40      Schedule Req
+41      Schedule Reply
+42      Spawn Reply
+43      Self Wait Spawn
+
+STATES_COLOR
+0       {128,128,128}
+1       {128,255,64}
+2       {192,128,128}
+3       {64,192,128}
+4       {192,128,64}
+5       {64,128,255}
+6       {64,255,255}
+7       {64,255,192}
+8       {128,255,128}
+9       {255,64,128}
+10      {64,255,128}
+11      {255,192,128}
+12      {128,128,64}
+13      {255,128,64}
+14      {255,128,128}
+15      {128,192,128}
+16      {128,64,255}
+17      {128,128,192}
+18      {192,192,128}
+19      {255,64,255}
+20      {192,255,128}
+21      {128,64,192}
+22      {64,128,128}
+23      {192,64,128}
+24      {192,64,192}
+25      {192,255,64}
+26      {64,128,192}
+27      {255,128,255}
+28      {255,192,64}
+29      {192,64,255}
+30      {128,128,255}
+31      {255,192,255}
+32      {192,255,255}
+33      {0,128,0}
+34      {128,255,192}
+35      {128,192,64}
+36      {192,128,255}
+37      {192,192,64}
+38      {255,255,64}
+39      {255,255,128}
+40      {192,255,192}
+41      {255,64,192}
+42      {128,255,255}
+43      {128,192,192}
+44      {128,192,255}
+45      {128,64,128}
+46      {192,192,255}
+47      {192,128,192}
+48      {64,192,255}
+49      {255,192,192}
+50      {192,192,192}
+51      {64,192,192}
+52      {255,255,255}
+53      {255,255,192}
+54      {255,128,192}
+
+
+
+EVENT_TYPE
+10  0  Task Enqueue
+VALUES
+0  Start
+1  End
+
+EVENT_TYPE
+11  1  Task Id
+
+EVENT_TYPE
+12  2  L2 Instruction Miss
+VALUES
+0  Start
+1  End
+
+EVENT_TYPE
+13  3  L2 Data Miss
+VALUES
+0  Start
+1  End
+
+EVENT_TYPE
+14  4  DMA
+VALUES
+0  Start
+1  End
+

@@ -1,0 +1,155 @@
+PATH = /home/lyberis/tools/arm/bin:/home/lyberis/tools/scoop:/bin:/usr/bin
+LD_LIBRARY_PATH=/home/lyberis/tools/arm/lib
+
+OBJECTS = obj/myrmics/arch/arm/version_myrmics_auto.arm.o \
+	  obj/myrmics/arch/arm/exceptions.arm.o \
+	  obj/myrmics/arch/arm/boot.arm.o \
+	  obj/myrmics/arch/arm/bus.arm.o \
+	  obj/myrmics/arch/arm/cache.arm.o \
+	  obj/myrmics/arch/arm/exec.arm.o \
+	  obj/myrmics/arch/arm/lock.arm.o \
+	  obj/myrmics/arch/arm/uart.arm.o \
+	  obj/myrmics/arch/arm/math.arm.o \
+	  obj/myrmics/arch/arm/panic.arm.o \
+	  obj/myrmics/arch/arm/flash.arm.o \
+	  obj/myrmics/arch/arm/timer.arm.o \
+	  obj/myrmics/arch/arm/irq.arm.o \
+	  obj/myrmics/arch/arm/comm.arm.o \
+	  obj/myrmics/arch/arm/init.arm.o \
+	  obj/myrmics/kt/string.arm.o \
+	  obj/myrmics/kt/print.arm.o \
+	  obj/myrmics/kt/trie.arm.o \
+	  obj/myrmics/kt/list.arm.o \
+	  obj/myrmics/kt/kalloc.arm.o \
+	  obj/myrmics/kt/ascii85.arm.o \
+	  obj/myrmics/dbg/trace.arm.o \
+	  obj/myrmics/dbg/stats.arm.o \
+	  obj/myrmics/noc/init.arm.o \
+	  obj/myrmics/noc/message.arm.o \
+	  obj/myrmics/noc/dma.arm.o \
+	  obj/myrmics/mm/slab.arm.o \
+	  obj/myrmics/mm/region.arm.o \
+	  obj/myrmics/mm/distr.arm.o \
+	  obj/myrmics/mm/mm.arm.o \
+	  obj/myrmics/pr/event.arm.o \
+	  obj/myrmics/pr/config.arm.o \
+	  obj/myrmics/pr/init.arm.o \
+	  obj/myrmics/pr/task.arm.o \
+	  obj/myrmics/pr/schedule.arm.o \
+	  obj/myrmics/pr/dependency.arm.o \
+	  obj/myrmics/fs/crc64.arm.o \
+	  obj/myrmics/fs/log.arm.o \
+	  obj/myrmics/fs/memory.arm.o \
+	  obj/myrmics/fs/layout.arm.o \
+	  obj/myrmics/fs/abstract.arm.o \
+	  obj/myrmics/fs/test.arm.o \
+	  obj/myrmics/fs/vfs.arm.o \
+	  obj/myrmics/sys/alloc.arm.o \
+	  obj/myrmics/sys/task.arm.o \
+	  obj/myrmics/sys/misc.arm.o \
+	  obj/myrmics/vid/video.arm.o \
+	  obj/myrmics/vid/demo_myrmics.scoop.arm.o \
+	  obj/myrmics/vid/demo_myrmics_vid.arm.o \
+	  obj/myrmics/bench/test_myrmics.scoop.arm.o \
+	  obj/myrmics/bench/matrix_mult_myrmics.scoop.arm.o \
+	  obj/myrmics/bench/jacobi_myrmics.scoop.arm.o \
+	  obj/myrmics/bench/bitonic_myrmics.scoop.arm.o \
+	  obj/myrmics/bench/fft_myrmics_noscoop.arm.o \
+	  obj/myrmics/bench/kmeans_myrmics.scoop.arm.o \
+	  obj/myrmics/bench/cray_myrmics.scoop.arm.o \
+	  obj/myrmics/bench/md5_myrmics.scoop.arm.o \
+	  obj/myrmics/bench/multilevel_myrmics.scoop.arm.o \
+	  obj/myrmics/bench/barnes_myrmics.scoop.arm.o \
+	  obj/myrmics/myrmics_main.arm.o
+
+TARGET = myrmics.arm.elf
+SCRIPT = linker.myrmics.arm.ld
+INCLUDE = include
+
+GCC_OPTS = -march=armv7-a -mfpu=neon -mfloat-abi=softfp -Wall -O2
+GAS_OPTS = -march=armv7-a -mfpu=neon
+
+AUTODATE = `date +'%Y-%m-%d'`
+AUTOVER = '000'
+
+SCOOPFLAGS = --runtime=myrmics \
+	     --tpcIncludePath=/home/lyberis/tools/scoop/headers \
+	     -I/home/lyberis/tools/scoop/headers
+
+STR_CLN = "[1m[ [31mCLN [0;1m][0m"
+STR_GCC = "[1m[ [32mGCC [0;1m][0m"
+STR_ASM = "[1m[ [33mASM [0;1m][0m"
+STR_LNK = "[1m[ [35mLNK [0;1m][0m"
+STR_SED = "[1m[ [36mSED [0;1m][0m"
+STR_DEP = "[1m[ [34mDEP [0;1m][0m"
+STR_DMP = "[1m[ [36mDMP [0;1m][0m"
+STR_SCO = "[1m[ [37mSCO [0;1m][0m"
+
+all: date $(TARGET)
+
+
+$(TARGET): $(OBJECTS) $(SCRIPT)
+	@echo $(STR_LNK) $@
+	@arm-none-eabi-ld -M -T $(SCRIPT) $(OBJECTS) -o $@ > $(@:.elf=.map)
+
+%.scoop.c: %.c
+	@echo $(STR_SCO) $<
+	@rm -f $@
+	@scoop --out-name=$(basename $@) \
+	      --myrmics-main-function=$(notdir $(basename $<)) \
+	      $(SCOOPFLAGS) -I$(INCLUDE) $<
+	@rm -f cf-graph.dot graph-begin.dot
+
+obj/myrmics/%.arm.o: %.s
+	@echo $(STR_ASM) $<
+	@mkdir -p $(dir $@)
+	@arm-none-eabi-as $(GAS_OPTS) $< -o $@
+
+obj/myrmics/%.arm.o: %.c dep/myrmics/%.arm.d
+	@echo $(STR_GCC) $<
+	@mkdir -p $(dir $@)
+	@arm-none-eabi-gcc -DARCH_ARM -DMYRMICS $(GCC_OPTS) -c -I$(INCLUDE) $< -o $@
+
+
+dep/myrmics/%.arm.d: %.c
+	@echo $(STR_DEP) $@
+	@mkdir -p $(dir $@)
+	@arm-none-eabi-gcc -DARCH_ARM -DMYRMICS -M -I$(INCLUDE) $< | \
+	 sed 's,[a-zA-Z0-9_\.]*.o:,$(<:%.c=obj/myrmics/%.arm.o):,' > $@
+
+.SECONDARY: $(OBJECTS:obj/myrmics/%.o=dep/myrmics/%.d) \
+	    $(OBJECTS:obj/myrmics/%.scoop.arm.o=%.scoop.c)
+
+ifneq ($(MAKECMDGOALS),clean)
+-include $(OBJECTS:obj/myrmics/%.o=dep/myrmics/%.d)
+endif
+
+
+date:
+	@rm -f arch/arm/version_myrmics_auto.* obj/myrmics/arch/arm/version_myrmics_auto.arm.o
+
+%_auto.s: %.s
+	@echo $(STR_SED) $@
+	@sed "s/BUILD_DATE/$(AUTODATE)/;s/BUILD_VER/$(AUTOVER)/" $< > $@
+
+
+.SECONDARY: arch/arm/version_myrmics_auto.s
+
+
+
+.PHONY: clean dump
+
+clean:
+	@echo $(STR_CLN) $(words $(OBJECTS)) Myrmics ARM object files, $(TARGET)
+	@rm -rf arch/arm/version_myrmics_auto.s \
+	       $(OBJECTS) \
+	       $(OBJECTS:obj/myrmics/%.o=dep/myrmics/%.d) \
+	       $(OBJECTS:obj/myrmics/%.scoop.arm.o=%.scoop.c) \
+	       $(TARGET) \
+	       $(TARGET:.elf=.map) \
+	       $(TARGET:.elf=.dump)
+
+dump: $(TARGET)
+	@echo $(STR_DMP) $(TARGET:.elf=.dump)
+	@arm-none-eabi-objdump -D $(TARGET) > $(TARGET:.elf=.dump)
+

@@ -1,0 +1,474 @@
+// ============================================================================
+// Copyright (c) 2013, FORTH-ICS / CARV 
+//                     (Foundation for Research & Technology -- Hellas,
+//                      Institute of Computer Science,
+//                      Computer Architecture & VLSI Systems Laboratory)
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+// ============================================================================
+// The software for the integer devision routine (ar_uint_divide()) was 
+// written by Ian Kaplan (http://www.bearcave.com/software/divide.htm), with
+// the following copyright notice:
+//
+// Copyright stuff
+//
+// Use of this program, for any purpose, is granted the author,
+// Ian Kaplan, as long as this copyright notice is included in
+// the source code or any source code derived from this program.
+// The user assumes all responsibility for using this code.
+//
+// Ian Kaplan, October 1996
+//
+// ==========================[ Static Information ]===========================
+//
+// Author        : Spyros Lyberis
+// Abstract      : Math-related functions
+//
+// =============================[ CVS Variables ]=============================
+//
+// File name     : $RCSfile: math.c,v $
+// CVS revision  : $Revision: 1.10 $
+// Last modified : $Date: 2013/06/07 18:55:17 $
+// Last author   : $Author: zakkak $
+//
+// ===========================================================================
+
+#include <arch.h>
+#include <types.h>
+
+
+// ===========================================================================
+// ar_uint_divide()             Perform unsigned integer division to compute
+//                              a quotient and/or a remainder
+// ===========================================================================
+// * INPUTS
+//   unsigned int num           The number to be divided (dividend)
+//   unsigned int div           The divisor
+//
+// * OUTPUTS
+//   unsigned int *ret_quot     If not NULL, the quotient is returned here
+//   unsigned int *ret_rem      If not NULL, the remainder is returned here
+// ===========================================================================
+void ar_uint_divide(unsigned int num, unsigned int div,
+                    unsigned int *ret_quot, unsigned int *ret_rem) {
+  unsigned int quot, rem;
+  unsigned int t, num_bits;
+  unsigned int q, bit, d;
+  int i;
+
+  rem = 0;
+  quot = 0;
+  d = 0;
+
+  if (div == 0) {
+    ar_panic("Division by zero");
+  }
+
+  if (div > num) {
+    rem = num;
+    goto end;
+  }
+
+  if (div == num) {
+    quot = 1;
+    goto end;
+  }
+
+  num_bits = 32;
+
+  while (rem < div) {
+    bit = (num & 0x80000000) >> 31;
+    rem = (rem << 1) | bit;
+    d = num;
+    num = num << 1;
+    num_bits--;
+  }
+
+
+  /* The loop, above, always goes one iteration too far.
+     To avoid inserting an "if" statement inside the loop
+     the last iteration is simply reversed. */
+
+  num = d;
+  rem = rem >> 1;
+  num_bits++;
+
+  for (i = 0; i < num_bits; i++) {
+    bit = (num & 0x80000000) >> 31;
+    rem = (rem << 1) | bit;
+    t = rem - div;
+    q = !((t & 0x80000000) >> 31);
+    num = num << 1;
+    quot = (quot << 1) | q;
+    if (q) {
+       rem = t;
+     }
+  }
+
+end:
+  if (ret_quot) {
+    *ret_quot = quot;
+  }
+  if (ret_rem) {
+    *ret_rem = rem;
+  }
+}
+
+
+// ===========================================================================
+// ar_int_divide()              Perform signed integer division to compute
+//                              a quotient and/or a remainder
+// ===========================================================================
+// * INPUTS
+//   int num                    The number to be divided (dividend)
+//   int div                    The divisor
+//
+// * OUTPUTS
+//   int *ret_quot              If not NULL, the quotient is returned here
+//   int *ret_rem               If not NULL, the remainder is returned here
+// ===========================================================================
+void ar_int_divide(int num, int div, int *ret_quot, int *ret_rem) {
+  char inv_quot;
+  unsigned int unum, udiv, uquot;
+  int final_quot;
+
+  // Track sign changes
+  inv_quot = 0;
+
+  // Convert num to positive
+  if (num < 0) {
+    inv_quot = 1;
+    unum = -num;
+  }
+  else {
+    unum = num;
+  }
+
+  // Convert div to positive
+  if (div < 0) {
+    inv_quot = 1 - inv_quot;
+    udiv = -div;
+  }
+  else {
+    udiv = div;
+  }
+
+  // Do the unsigned division
+  ar_uint_divide(unum, udiv, &uquot, NULL);
+
+  // Inverse quotient
+  final_quot = (inv_quot) ? -uquot : uquot;
+
+  // Return results
+  if (ret_quot) {
+    *ret_quot = final_quot;
+  }
+  if (ret_rem) {
+    // Remainder is tricky with negative numbers. It must always satisfy
+    // the expression
+    //
+    //          (quotient * divisor) + remainder = dividend
+    //
+    // which makes its sign really counter-intuitive. E.g.:
+    // (-7) / (-2) -> quotient = +3, remainder = -1
+    //
+    *ret_rem = num - (final_quot * div);
+  }
+}
+
+
+// ===========================================================================
+// __divsi3()                   GCC integer division software wrappers
+// __modsi3()
+// __udivsi3()
+// __umodsi3()
+// ===========================================================================
+// Quotient of signed division
+int __divsi3(int a, int b) {
+  int q;
+  ar_int_divide(a, b, &q, NULL);
+  return q;
+}
+// Remainder of signed division
+int __modsi3(int a, int b) {
+  int r;
+  ar_int_divide(a, b, NULL, &r);
+  return r;
+}
+// Quotient of unsigned division
+unsigned int __udivsi3(unsigned int a, unsigned int b) {
+  unsigned int q;
+  ar_uint_divide(a, b, &q, NULL);
+  return q;
+}
+// Remainder of unsigned division
+unsigned int __umodsi3(unsigned int a, unsigned int b) {
+  unsigned int r;
+  ar_uint_divide(a, b, NULL, &r);
+  return r;
+}
+
+
+// ===========================================================================
+// ar_float_sqrt()              Perform floating-point square root
+// ===========================================================================
+// * INPUT
+//   float num                  The number
+//
+// * OUTPUT
+//   float                      square root of num
+// ===========================================================================
+float ar_float_sqrt(float num) {
+  float ret_sqrt;
+
+  asm("fsqrt %0, %1" : "=r"(ret_sqrt) : "r"(num) );
+
+  return ret_sqrt;
+}
+
+
+// ===========================================================================
+// ar_float_pow()               Perform floating-point raise to power
+// ===========================================================================
+// * INPUT
+//   float x                    The base
+//   float y                    The exponent
+//
+// * OUTPUT
+//   float                      x ** y
+// ===========================================================================
+float ar_float_pow(float x, float y) {
+
+  int   inverse;
+  float tmp;
+  float low;
+  float high;
+  float acc;
+  float mid;
+
+  if (x == 0.0f) {
+    ar_assert(y > 0.0f);
+    return 0.0f;
+  }
+
+  if (y < 0.0f) {
+    inverse = 1;
+    y = -y;
+  }
+  else {
+    inverse = 0;
+  }
+
+  if (y >= 1.0f) {
+    tmp = ar_float_pow(x, y / 2.0f);
+    tmp *= tmp;
+    if (inverse) {
+      return 1.0f / tmp;
+    }
+    else {
+      return tmp;
+    }
+  }
+
+  low = 0.0f;
+  high = 1.0f;
+  tmp = ar_float_sqrt(x);
+  acc = tmp;
+  mid = high / 2.0f;
+
+  while (((mid > y) ? (mid - y) : (y - mid)) > 0.0001){
+    tmp = ar_float_sqrt(tmp);
+    if (mid <= y) {
+      low = mid;
+      acc *= tmp;
+    }
+    else {
+      high = mid;
+      acc *= (1.0f / tmp);
+    }
+    mid = (low + high) / 2.0f;
+  }
+
+  if (inverse) {
+    return 1.0f / acc;
+  }
+  else {
+    return acc;
+  }
+}
+
+// ===========================================================================
+// __truncdfsf2()               Dummy double->float conversion for MicroBlaze.
+//                              Note that MicroBlaze has only a single
+//                              precision FPU, so doubles are NOT handled. We
+//                              provide these functions here, because variadic
+//                              arguments (especially for the printf() family)
+//                              automatically promote floats to doubles.
+//
+//                              WARNING: These functions are dummies: they do
+//                              NOT really convert to double precision IEEE 754
+//                              format, they simply pad the single precision
+//                              (32bit) argument into a double precision
+//                              (64bit) container and vice versa.
+//
+//                              Also note that GCC support for doubles in
+//                              MicroBlaze seems shaky. If "volatile" is not
+//                              used here, some weird optimizations make it
+//                              impossible to get the correct values.
+//
+//                              Also note, that due to the dummy conversions
+//                              it's not possible to actually print constants
+//                              or variables that are optimized out. E.g.
+//
+//                                      kt_printf("%f\r\n", 12.34)
+//
+//                              will give an invalid number. Use instead
+//
+//                                      volatile float f = 12.34;
+//                                      kt_printf("%f\r\n", f);
+//
+//                              to get the correct result.
+// ===========================================================================
+// * INPUTS
+//   double d                   The double to be converted
+//
+// * RETURN VALUE
+//   float                      The converted float
+// ===========================================================================
+float __truncdfsf2(volatile double d) {
+  volatile float f;
+  volatile int *pd = (void *) &d;
+  volatile int *pf = (void *) &f;
+
+  *pf = *(pd + 1);
+
+  return f;
+}
+
+
+// ===========================================================================
+// __extendsfdf2()              Dummy float->double conversion for MicroBlaze.
+//                              See __truncdfsf2() above for comments.
+// ===========================================================================
+// * INPUTS
+//   float f                    The float to be converted
+//
+// * RETURN VALUE
+//   double                     The converted double
+// ===========================================================================
+double __extendsfdf2(volatile float f) {
+  volatile double d;
+  volatile int *pd = (void *) &d;
+  volatile int *pf = (void *) &f;
+
+  *(pd + 0) = *pf;
+  *(pd + 1) = *pf;
+
+  return d;
+}
+
+// ===========================================================================
+// ar_sin()                     Computes the sine of a number
+// ===========================================================================
+// * INPUTS
+//   float x                    The number (in radians)
+//
+// * RETURN VALUE
+//   float                      sin(x)
+// ===========================================================================
+float ar_sin(float x) {
+
+  float ret;
+  float xsq;
+  float prod;
+  int   inv;
+
+
+  // Bring to 0...PI section
+  if (x < 0.0f) {
+    x += (((int) (-x / 6.283185f)) + 1) * 6.283185f;
+  }
+  else if (x > 6.283185f) {
+    x -= ((int) (x / 6.283185f)) * 6.283185f;
+  }
+
+  // Bring to 0...PI/4 section, mirror by PI/4 in even quadrants, remember
+  // if we need to invert the result
+  if (x > 4.712388f) {
+    x -= 4.712388f;
+    x = 1.570796f - x;
+    inv = 1;
+  }
+  else if (x > 3.141592f) {
+    x -= 3.141592f;
+    inv = 1;
+  }
+  else if (x > 1.570796f) {
+    x -= 1.570796f;
+    x = 1.570796f - x;
+    inv = 0;
+  }
+  else {
+    inv = 0;
+  }
+
+  // Do Taylor series
+  ret = x;
+  xsq = x * x;          // x^2
+  prod = x * xsq;       // x^3
+  ret -= prod / 6.0f;
+  prod *= xsq;          // x^5
+  ret += prod / 120.0f;
+  prod *= xsq;          // x^7
+  ret -= prod / 5040.0f;
+
+  // Inverse result if needed and return
+  if (inv) {
+    ret = -ret;
+  }
+  return ret;
+}
+
+
+// ===========================================================================
+// ar_cos()                     Computes the cosine of a number
+// ===========================================================================
+// * INPUTS
+//   float x                    The number (in radians)
+//
+// * RETURN VALUE
+//   float                      cos(x)
+// ===========================================================================
+float ar_cos(float x) {
+  return ar_sin(x + 1.570796f);
+}
+
+
+// ===========================================================================
+// ar_tan()                     Computes the tangent of a number
+// ===========================================================================
+// * INPUTS
+//   float x                    The number (in radians)
+//
+// * RETURN VALUE
+//   float                      tan(x)
+// ===========================================================================
+float ar_tan(float x) {
+  float sin;
+  float cos;
+  sin = ar_sin(x);
+  cos = ar_cos(x);
+  ar_assert(cos != 0.0f);
+  return sin / cos;
+}

@@ -1,0 +1,128 @@
+PATH = /home/lyberis/tools/mb/bin:/bin:/usr/bin
+
+OBJECTS = obj/mpi/arch/mb/vectors.mb.o \
+	  obj/mpi/arch/mb/boot.mb.o \
+	  obj/mpi/arch/mb/exec.mb.o \
+	  obj/mpi/arch/mb/cache.mb.o \
+	  obj/mpi/arch/mb/uart.mb.o \
+	  obj/mpi/arch/mb/math.mb.o \
+	  obj/mpi/arch/mb/panic.mb.o \
+	  obj/mpi/arch/mb/timer.mb.o \
+	  obj/mpi/arch/mb/irq.mb.o \
+	  obj/mpi/arch/mb/comm.mb.o \
+	  obj/mpi/arch/mb/init.mb.o \
+	  obj/mpi/kt/string.mb.o \
+	  obj/mpi/kt/print.mb.o \
+	  obj/mpi/kt/trie.mb.o \
+	  obj/mpi/kt/list.mb.o \
+	  obj/mpi/kt/kalloc.mb.o \
+	  obj/mpi/kt/ascii85.mb.o \
+	  obj/mpi/mm/slab.mb.o \
+	  obj/mpi/fmpi/init.mb.o \
+	  obj/mpi/fmpi/internals.mb.o \
+	  obj/mpi/fmpi/mpi.mb.o \
+	  obj/mpi/vid/video.mb.o \
+	  obj/mpi/vid/demo_mpi.mb.o \
+	  obj/mpi/bench/test_bare.mb.o \
+	  obj/mpi/bench/test_mpi.mb.o \
+	  obj/mpi/bench/matrix_mult_mpi.mb.o \
+	  obj/mpi/bench/jacobi_bare.mb.o \
+	  obj/mpi/bench/jacobi_mpi.mb.o \
+	  obj/mpi/bench/swat_mpi.mb.o \
+	  obj/mpi/bench/bitonic_mpi.mb.o \
+	  obj/mpi/bench/fft_mpi.mb.o \
+	  obj/mpi/bench/stream_bare.mb.o \
+	  obj/mpi/bench/smb_overhead_mpi.mb.o \
+	  obj/mpi/bench/smb_msgrate_mpi.mb.o \
+	  obj/mpi/bench/nas_cg_mpi.mb.o \
+	  obj/mpi/bench/nas_dt_mpi.mb.o \
+	  obj/mpi/bench/nas_ep_mpi.mb.o \
+	  obj/mpi/bench/nas_is_mpi.mb.o \
+	  obj/mpi/bench/nas_lu_mpi.mb.o \
+	  obj/mpi/bench/cray_mpi.mb.o \
+	  obj/mpi/bench/kmeans_mpi.mb.o \
+	  obj/mpi/bench/barnes_mpi.mb.o \
+	  obj/mpi/mpi_main.mb.o
+
+TARGET = mpi.mb.elf
+SCRIPT = linker.mpi.mb.ld
+INCLUDE = include
+
+TARGET_FOR_INCLUSION = mpi.mb.elf.ld
+
+# C_USE_HW_MUL		-m[no-]xl-soft-mul
+# C_USE_HW_MUL == 2	-m[no-]xl-multiply-high
+# C_USE_DIV		-m[no-]xl-soft-div
+# C_USE_BARREL		-m[no-]xl-barrel-shift
+# C_USE_PCMP_INSTR	-m[no-]xl-pattern-compare
+# C_USE_FPU		-mhard-float | -msoft-float
+# C_USE_FPU == 2    	-mxl-float-convert, -mxl-float-sqrt
+CFLAGS = -mcpu=v8.00.b -mno-xl-soft-mul -mno-xl-multiply-high \
+	 -mxl-soft-div -mxl-barrel-shift -mxl-pattern-compare \
+	 -mlittle-endian -mhard-float -fsingle-precision-constant \
+	 -mxl-float-convert -mxl-float-sqrt -Wall -O2
+
+STR_CLN = "[1m[ [31mCLN [0;1m][0m"
+STR_GCC = "[1m[ [32mGCC [0;1m][0m"
+STR_ASM = "[1m[ [33mASM [0;1m][0m"
+STR_LNK = "[1m[ [35mLNK [0;1m][0m"
+STR_BIN = "[1m[ [36mOBJ [0;1m][0m"
+STR_DEP = "[1m[ [34mDEP [0;1m][0m"
+STR_DMP = "[1m[ [36mDMP [0;1m][0m"
+
+
+all: $(TARGET) $(TARGET_FOR_INCLUSION)
+
+
+$(TARGET): $(OBJECTS) $(SCRIPT)
+	@echo $(STR_LNK) $@
+	@mb-ld -N -M -T $(SCRIPT) $(OBJECTS) --format elf32-microblazele --oformat elf32-microblazele -o $@ > $(@:.elf=.map)
+
+
+obj/mpi/%.mb.o: %.s
+	@echo $(STR_ASM) $<
+	@mkdir -p $(dir $@)
+	@mb-as $< -mlittle-endian -o $@
+
+obj/mpi/%.mb.o: %.c dep/mpi/%.mb.d
+	@echo $(STR_GCC) $<
+	@mkdir -p $(dir $@)
+	@mb-gcc -DARCH_MB -DFMPI -c $(CFLAGS) -I$(INCLUDE) $< -o $@
+
+%.elf.ld: %.elf
+	@echo $(STR_BIN) $@
+	@mb-objcopy -O binary --gap-fill 0 $< $(<:.elf=.bin)
+	@chmod -x $(<:.elf=.bin)
+	@od -v -An -t x4 -w4 $(<:.elf=.bin) | awk '{print "LONG(0x"$$1")"}' > $@
+
+
+dep/mpi/%.mb.d: %.c
+	@echo $(STR_DEP) $@
+	@mkdir -p $(dir $@)
+	@mb-gcc -DARCH_MB -DFMPI -M -I$(INCLUDE) $< | \
+	 sed 's,[a-zA-Z0-9_\.]*.o:,$(<:%.c=obj/mpi/%.mb.o):,' > $@
+
+.SECONDARY: $(OBJECTS:obj/mpi/%.o=dep/mpi/%.d)
+
+ifneq ($(MAKECMDGOALS),clean)
+-include $(OBJECTS:obj/mpi/%.o=dep/mpi/%.d)
+endif
+
+
+
+.PHONY: clean dump
+
+clean:
+	@echo $(STR_CLN) $(words $(OBJECTS)) MPI MicroBlaze object files, $(TARGET)
+	@rm -f $(OBJECTS) \
+	       $(OBJECTS:obj/mpi/%.o=dep/mpi/%.d) \
+	       $(TARGET) \
+	       $(TARGET:.elf=.map) \
+	       $(TARGET:.elf=.bin) \
+	       $(TARGET:.elf=.dump) \
+	       $(TARGET_FOR_INCLUSION)
+
+dump: $(TARGET)
+	@echo $(STR_DMP) $(TARGET:.elf=.dump)
+	@mb-objdump -D $(TARGET) > $(TARGET:.elf=.dump)
+

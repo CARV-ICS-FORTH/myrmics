@@ -1,0 +1,122 @@
+PATH = /home/lyberis/tools/arm/bin:/bin:/usr/bin
+LD_LIBRARY_PATH=/home/lyberis/tools/arm/lib
+
+OBJECTS = obj/mpi/arch/arm/version_fmpi_auto.arm.o \
+	  obj/mpi/arch/arm/exceptions.arm.o \
+	  obj/mpi/arch/arm/boot.arm.o \
+	  obj/mpi/arch/arm/bus.arm.o \
+	  obj/mpi/arch/arm/cache.arm.o \
+	  obj/mpi/arch/arm/exec.arm.o \
+	  obj/mpi/arch/arm/lock.arm.o \
+	  obj/mpi/arch/arm/uart.arm.o \
+	  obj/mpi/arch/arm/math.arm.o \
+	  obj/mpi/arch/arm/panic.arm.o \
+	  obj/mpi/arch/arm/flash.arm.o \
+	  obj/mpi/arch/arm/timer.arm.o \
+	  obj/mpi/arch/arm/irq.arm.o \
+	  obj/mpi/arch/arm/comm.arm.o \
+	  obj/mpi/arch/arm/init.arm.o \
+	  obj/mpi/kt/string.arm.o \
+	  obj/mpi/kt/print.arm.o \
+	  obj/mpi/kt/trie.arm.o \
+	  obj/mpi/kt/list.arm.o \
+	  obj/mpi/kt/kalloc.arm.o \
+	  obj/mpi/kt/ascii85.arm.o \
+	  obj/mpi/mm/slab.arm.o \
+	  obj/mpi/fmpi/init.arm.o \
+	  obj/mpi/fmpi/internals.arm.o \
+	  obj/mpi/fmpi/mpi.arm.o \
+	  obj/mpi/vid/video.arm.o \
+	  obj/mpi/vid/demo_mpi.arm.o \
+	  obj/mpi/bench/test_bare.arm.o \
+	  obj/mpi/bench/test_mpi.arm.o \
+	  obj/mpi/bench/matrix_mult_mpi.arm.o \
+	  obj/mpi/bench/jacobi_bare.arm.o \
+	  obj/mpi/bench/jacobi_mpi.arm.o \
+	  obj/mpi/bench/swat_mpi.arm.o \
+	  obj/mpi/bench/bitonic_mpi.arm.o \
+	  obj/mpi/bench/fft_mpi.arm.o \
+	  obj/mpi/bench/stream_bare.arm.o \
+	  obj/mpi/bench/smb_overhead_mpi.arm.o \
+	  obj/mpi/bench/smb_msgrate_mpi.arm.o \
+	  obj/mpi/bench/cray_mpi.arm.o \
+	  obj/mpi/bench/kmeans_mpi.arm.o \
+      obj/mpi/bench/barnes_mpi.arm.o \
+	  obj/mpi/mpi_main.arm.o
+
+TARGET = mpi.arm.elf
+SCRIPT = linker.mpi.arm.ld
+INCLUDE = include
+
+GCC_OPTS = -march=armv7-a -mfpu=neon -mfloat-abi=softfp -Wall -O2
+GAS_OPTS = -march=armv7-a -mfpu=neon
+
+AUTODATE = `date +'%Y-%m-%d'`
+AUTOVER = '000'
+
+STR_CLN = "[1m[ [31mCLN [0;1m][0m"
+STR_GCC = "[1m[ [32mGCC [0;1m][0m"
+STR_ASM = "[1m[ [33mASM [0;1m][0m"
+STR_LNK = "[1m[ [35mLNK [0;1m][0m"
+STR_SED = "[1m[ [36mSED [0;1m][0m"
+STR_DEP = "[1m[ [34mDEP [0;1m][0m"
+STR_DMP = "[1m[ [36mDMP [0;1m][0m"
+
+all: date $(TARGET)
+
+
+$(TARGET): $(OBJECTS) $(SCRIPT)
+	@echo $(STR_LNK) $@
+	@arm-none-eabi-ld -M -T $(SCRIPT) $(OBJECTS) -o $@ > $(@:.elf=.map)
+
+obj/mpi/%.arm.o: %.s
+	@echo $(STR_ASM) $<
+	@mkdir -p $(dir $@)
+	@arm-none-eabi-as $(GAS_OPTS) $< -o $@
+
+obj/mpi/%.arm.o: %.c dep/mpi/%.arm.d
+	@echo $(STR_GCC) $<
+	@mkdir -p $(dir $@)
+	@arm-none-eabi-gcc -DARCH_ARM -DFMPI $(GCC_OPTS) -c -I$(INCLUDE) $< -o $@
+
+
+dep/mpi/%.arm.d: %.c
+	@echo $(STR_DEP) $@
+	@mkdir -p $(dir $@)
+	@arm-none-eabi-gcc -DARCH_ARM -DFMPI -M -I$(INCLUDE) $< | \
+	 sed 's,[a-zA-Z0-9_\.]*.o:,$(<:%.c=obj/mpi/%.arm.o):,' > $@
+
+.SECONDARY: $(OBJECTS:obj/mpi/%.o=dep/mpi/%.d)
+
+ifneq ($(MAKECMDGOALS),clean)
+-include $(OBJECTS:obj/mpi/%.o=dep/mpi/%.d)
+endif
+
+
+date:
+	@rm -f arch/arm/version_fmpi_auto.* obj/mpi/arch/arm/version_fmpi_auto.arm.o
+
+%_auto.s: %.s
+	@echo $(STR_SED) $@
+	@sed "s/BUILD_DATE/$(AUTODATE)/;s/BUILD_VER/$(AUTOVER)/" $< > $@
+
+
+.SECONDARY: arch/arm/version_fmpi_auto.s
+
+
+
+.PHONY: clean dump
+
+clean:
+	@echo $(STR_CLN) $(words $(OBJECTS)) MPI ARM object files, $(TARGET)
+	@rm -rf arch/arm/version_fmpi_auto.s \
+	       $(OBJECTS) \
+	       $(OBJECTS:obj/mpi/%.o=dep/mpi/%.d) \
+	       $(TARGET) \
+	       $(TARGET:.elf=.map) \
+	       $(TARGET:.elf=.dump)
+
+dump: $(TARGET)
+	@echo $(STR_DMP) $(TARGET:.elf=.dump)
+	@arm-none-eabi-objdump -D $(TARGET) > $(TARGET:.elf=.dump)
+

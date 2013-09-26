@@ -1,0 +1,3893 @@
+#!/bin/bash
+
+ROW_FILE="paraver.row"
+
+case "$1" in
+
+# ===========================================================================
+  CFG_2_HET_FLAT)
+# ===========================================================================
+    header="2(1,1):1:2(1:1,1:2)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:2:1"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 2
+Formic 0x2B
+ARM 0x6B
+
+LEVEL CPU SIZE 2
+[0x2B/0] Worker 0
+[0x6B/0] Scheduler 0
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_5_MB_FLAT)
+# ===========================================================================
+    header="1(5):1:1(5:1)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 1
+Formic 0x00
+
+LEVEL CPU SIZE 5
+[0x00/0] Worker 0
+[0x00/1] Worker 1
+[0x00/2] Worker 2
+[0x00/3] Worker 3
+[0x00/4] Scheduler 0
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_5_HET_FLAT)
+# ===========================================================================
+    header="2(4,1):1:2(4:1,1:2)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:2:1"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 2
+Formic 0x2B
+ARM 0x6B
+
+LEVEL CPU SIZE 5
+[0x2B/0] Worker 0
+[0x2B/1] Worker 1
+[0x2B/2] Worker 2
+[0x2B/3] Worker 3
+[0x6B/0] Scheduler 0
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_8_ARM_FLAT)
+# ===========================================================================
+    header="2(4,4):1:2(4:1,4:2)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:2:1"
+    cpu[5]="6:1:2:2"
+    cpu[6]="7:1:2:3"
+    cpu[7]="8:1:2:4"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 2
+ARM 0x4B
+ARM 0x6B
+
+LEVEL CPU SIZE 8
+[0x4B/0] Worker 0
+[0x4B/1] Worker 1
+[0x4B/2] Worker 2
+[0x4B/3] Worker 3
+[0x6B/0] Worker 4
+[0x6B/1] Worker 5
+[0x6B/2] Worker 6
+[0x6B/3] Scheduler 0
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_9_MB_FLAT)
+# ===========================================================================
+    header="2(8,1):1:2(8:1,1:2)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 2
+Formic 0x00
+Formic 0x10
+
+LEVEL CPU SIZE 9
+[0x00/0] Worker 0
+[0x00/1] Worker 1
+[0x00/2] Worker 2
+[0x00/3] Worker 3
+[0x00/4] Worker 4
+[0x00/5] Worker 5
+[0x00/6] Worker 6
+[0x00/7] Worker 7
+[0x10/0] Scheduler 0
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_9_HET_FLAT)
+# ===========================================================================
+    header="2(8,1):1:2(8:1,1:2)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 2
+Formic 0x2B
+ARM 0x6B
+
+LEVEL CPU SIZE 9
+[0x2B/0] Worker 0
+[0x2B/1] Worker 1
+[0x2B/2] Worker 2
+[0x2B/3] Worker 3
+[0x2B/4] Worker 4
+[0x2B/5] Worker 5
+[0x2B/6] Worker 6
+[0x2B/7] Worker 7
+[0x6B/0] Scheduler 0
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_11_MB_HIER)
+# ===========================================================================
+    header="2(8,3):1:2(8:1,3:2)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+    cpu[9]="10:1:2:2"
+    cpu[10]="11:1:2:3"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 2
+Formic 0x00
+Formic 0x10
+
+LEVEL CPU SIZE 11
+[0x00/0] Worker 0
+[0x00/1] Worker 1
+[0x00/2] Worker 2
+[0x00/3] Worker 3
+[0x00/4] Worker 4
+[0x00/5] Worker 5
+[0x00/6] Worker 6
+[0x00/7] Worker 7
+[0x10/0] Scheduler 0
+[0x10/1] Scheduler 1
+[0x10/2] Scheduler 2
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_11_HET_HIER)
+# ===========================================================================
+    header="2(8,3):1:2(8:1,3:2)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+    cpu[9]="10:1:2:2"
+    cpu[10]="11:1:2:3"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 2
+Formic 0x00
+ARM 0x6B
+
+LEVEL CPU SIZE 11
+[0x00/0] Worker 0
+[0x00/1] Worker 1
+[0x00/2] Worker 2
+[0x00/3] Worker 3
+[0x00/4] Worker 4
+[0x00/5] Worker 5
+[0x00/6] Worker 6
+[0x00/7] Worker 7
+[0x6B/0] Scheduler 0
+[0x6B/1] Scheduler 1
+[0x6B/2] Scheduler 2
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_17_MB_FLAT)
+# ===========================================================================
+    header="3(8,8,1):1:3(8:1,8:2,1:3)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+    cpu[9]="10:1:2:2"
+    cpu[10]="11:1:2:3"
+    cpu[11]="12:1:2:4"
+    cpu[12]="13:1:2:5"
+    cpu[13]="14:1:2:6"
+    cpu[14]="15:1:2:7"
+    cpu[15]="16:1:2:8"
+    cpu[16]="17:1:3:1"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 3
+Formic 0x00
+Formic 0x20
+Formic 0x10
+
+LEVEL CPU SIZE 17
+[0x00/0] Worker 0
+[0x00/1] Worker 1
+[0x00/2] Worker 2
+[0x00/3] Worker 3
+[0x00/4] Worker 4
+[0x00/5] Worker 5
+[0x00/6] Worker 6
+[0x00/7] Worker 7
+[0x20/0] Worker 8
+[0x20/1] Worker 9
+[0x20/2] Worker 10
+[0x20/3] Worker 11
+[0x20/4] Worker 12
+[0x20/5] Worker 13
+[0x20/6] Worker 14
+[0x20/7] Worker 15
+[0x10/0] Scheduler 0
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_17_HET_FLAT)
+# ===========================================================================
+    header="3(8,8,1):1:3(8:1,8:2,1:3)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+    cpu[9]="10:1:2:2"
+    cpu[10]="11:1:2:3"
+    cpu[11]="12:1:2:4"
+    cpu[12]="13:1:2:5"
+    cpu[13]="14:1:2:6"
+    cpu[14]="15:1:2:7"
+    cpu[15]="16:1:2:8"
+    cpu[16]="17:1:3:1"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 3
+Formic 0x1B
+Formic 0x2B
+ARM 0x6B
+
+LEVEL CPU SIZE 17
+[0x1B/0] Worker 0
+[0x1B/1] Worker 1
+[0x1B/2] Worker 2
+[0x1B/3] Worker 3
+[0x1B/4] Worker 4
+[0x1B/5] Worker 5
+[0x1B/6] Worker 6
+[0x1B/7] Worker 7
+[0x2B/0] Worker 8
+[0x2B/1] Worker 9
+[0x2B/2] Worker 10
+[0x2B/3] Worker 11
+[0x2B/4] Worker 12
+[0x2B/5] Worker 13
+[0x2B/6] Worker 14
+[0x2B/7] Worker 15
+[0x6B/0] Scheduler 0
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_19_MB_HIER)
+# ===========================================================================
+    header="3(8,8,3):1:3(8:1,8:2,3:3)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+    cpu[9]="10:1:2:2"
+    cpu[10]="11:1:2:3"
+    cpu[11]="12:1:2:4"
+    cpu[12]="13:1:2:5"
+    cpu[13]="14:1:2:6"
+    cpu[14]="15:1:2:7"
+    cpu[15]="16:1:2:8"
+    cpu[16]="17:1:3:1"
+    cpu[17]="18:1:3:2"
+    cpu[18]="19:1:3:3"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 3
+Formic 0x00
+Formic 0x10
+Formic 0x20
+
+LEVEL CPU SIZE 19
+[0x00/0] Worker 0
+[0x00/1] Worker 1
+[0x00/2] Worker 2
+[0x00/3] Worker 3
+[0x00/4] Worker 4
+[0x00/5] Worker 5
+[0x00/6] Worker 6
+[0x00/7] Worker 7
+[0x20/0] Worker 8
+[0x20/1] Worker 9
+[0x20/2] Worker 10
+[0x20/3] Worker 11
+[0x20/4] Worker 12
+[0x20/5] Worker 13
+[0x20/6] Worker 14
+[0x20/7] Worker 15
+[0x10/0] Scheduler 0
+[0x10/1] Scheduler 1
+[0x10/2] Scheduler 2
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_25_HET_FLAT)
+# ===========================================================================
+    header="4(8,8,8,1):1:4(8:1,8:2,8:3,1:4)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+    cpu[9]="10:1:2:2"
+    cpu[10]="11:1:2:3"
+    cpu[11]="12:1:2:4"
+    cpu[12]="13:1:2:5"
+    cpu[13]="14:1:2:6"
+    cpu[14]="15:1:2:7"
+    cpu[15]="16:1:2:8"
+    cpu[16]="17:1:3:1"
+    cpu[17]="18:1:3:2"
+    cpu[18]="19:1:3:3"
+    cpu[19]="20:1:3:4"
+    cpu[20]="21:1:3:5"
+    cpu[21]="22:1:3:6"
+    cpu[22]="23:1:3:7"
+    cpu[23]="24:1:3:8"
+    cpu[24]="25:1:4:1"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 4
+Formic 0x1B
+Formic 0x2B
+Formic 0x3B
+ARM 0x6B
+
+LEVEL CPU SIZE 25
+[0x1B/0] Worker 0
+[0x1B/1] Worker 1
+[0x1B/2] Worker 2
+[0x1B/3] Worker 3
+[0x1B/4] Worker 4
+[0x1B/5] Worker 5
+[0x1B/6] Worker 6
+[0x1B/7] Worker 7
+[0x2B/0] Worker 8
+[0x2B/1] Worker 9
+[0x2B/2] Worker 10
+[0x2B/3] Worker 11
+[0x2B/4] Worker 12
+[0x2B/5] Worker 13
+[0x2B/6] Worker 14
+[0x2B/7] Worker 15
+[0x3B/0] Worker 16
+[0x3B/1] Worker 17
+[0x3B/2] Worker 18
+[0x3B/3] Worker 19
+[0x3B/4] Worker 20
+[0x3B/5] Worker 21
+[0x3B/6] Worker 22
+[0x3B/7] Worker 23
+[0x6B/0] Scheduler 0
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_28_HET_HIER)
+# ===========================================================================
+    header="4(8,8,8,4):1:4(8:1,8:2,8:3,4:4)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+    cpu[9]="10:1:2:2"
+    cpu[10]="11:1:2:3"
+    cpu[11]="12:1:2:4"
+    cpu[12]="13:1:2:5"
+    cpu[13]="14:1:2:6"
+    cpu[14]="15:1:2:7"
+    cpu[15]="16:1:2:8"
+    cpu[16]="17:1:3:1"
+    cpu[17]="18:1:3:2"
+    cpu[18]="19:1:3:3"
+    cpu[19]="20:1:3:4"
+    cpu[20]="21:1:3:5"
+    cpu[21]="22:1:3:6"
+    cpu[22]="23:1:3:7"
+    cpu[23]="24:1:3:8"
+    cpu[24]="25:1:4:1"
+    cpu[25]="26:1:4:2"
+    cpu[26]="27:1:4:3"
+    cpu[27]="28:1:4:4"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 4
+Formic 0x1B
+Formic 0x2B
+Formic 0x3B
+ARM 0x6B
+
+LEVEL CPU SIZE 28
+[0x1B/0] Worker 0
+[0x1B/1] Worker 1
+[0x1B/2] Worker 2
+[0x1B/3] Worker 3
+[0x1B/4] Worker 4
+[0x1B/5] Worker 5
+[0x1B/6] Worker 6
+[0x1B/7] Worker 7
+[0x2B/0] Worker 8
+[0x2B/1] Worker 9
+[0x2B/2] Worker 10
+[0x2B/3] Worker 11
+[0x2B/4] Worker 12
+[0x2B/5] Worker 13
+[0x2B/6] Worker 14
+[0x2B/7] Worker 15
+[0x3B/0] Worker 16
+[0x3B/1] Worker 17
+[0x3B/2] Worker 18
+[0x3B/3] Worker 19
+[0x3B/4] Worker 20
+[0x3B/5] Worker 21
+[0x3B/6] Worker 22
+[0x3B/7] Worker 23
+[0x6B/0] Scheduler 0
+[0x6B/1] Scheduler 1
+[0x6B/2] Scheduler 2
+[0x6B/3] Scheduler 3
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_31_MB_HIER)
+# ===========================================================================
+    header="5(7,7,7,7,3):1:5(7:1,7:2,7:3,7:4,3:5)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:2:1"
+    cpu[8]="9:1:2:2"
+    cpu[9]="10:1:2:3"
+    cpu[10]="11:1:2:4"
+    cpu[11]="12:1:2:5"
+    cpu[12]="13:1:2:6"
+    cpu[13]="14:1:2:7"
+    cpu[14]="15:1:3:1"
+    cpu[15]="16:1:3:2"
+    cpu[16]="17:1:3:3"
+    cpu[17]="18:1:3:4"
+    cpu[18]="19:1:3:5"
+    cpu[19]="20:1:3:6"
+    cpu[20]="21:1:3:7"
+    cpu[21]="22:1:4:1"
+    cpu[22]="23:1:4:2"
+    cpu[23]="24:1:4:3"
+    cpu[24]="25:1:4:4"
+    cpu[25]="26:1:4:5"
+    cpu[26]="27:1:4:6"
+    cpu[27]="28:1:4:7"
+    cpu[28]="29:1:5:1"
+    cpu[29]="30:1:5:2"
+    cpu[30]="31:1:5:3"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 5
+Formic 0x00
+Formic 0x10
+Formic 0x04
+Formic 0x14
+Formic 0x01
+
+LEVEL CPU SIZE 31
+[0x00/0] Worker 0
+[0x00/1] Worker 1
+[0x00/2] L0 Scheduler 0
+[0x00/3] Worker 2
+[0x00/4] Worker 3
+[0x00/5] L0 Scheduler 1
+[0x00/6] L1 Scheduler 2
+[0x10/0] Worker 4
+[0x10/1] Worker 5
+[0x10/2] L0 Scheduler 3
+[0x10/3] Worker 6
+[0x10/4] Worker 7
+[0x10/5] L0 Scheduler 4
+[0x10/6] L1 Scheduler 5
+[0x04/0] Worker 8
+[0x04/1] Worker 9
+[0x04/2] L0 Scheduler 6
+[0x04/3] Worker 10
+[0x04/4] Worker 11
+[0x04/5] L0 Scheduler 7
+[0x04/6] L1 Scheduler 8
+[0x14/0] Worker 12
+[0x14/1] Worker 13
+[0x14/2] L0 Scheduler 9
+[0x14/3] Worker 14
+[0x14/4] Worker 15
+[0x14/5] L0 Scheduler 10
+[0x14/6] L1 Scheduler 11
+[0x01/0] L2 Scheduler 12
+[0x01/1] L2 Scheduler 13
+[0x01/2] L3 Scheduler 14
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_33_HET_FLAT)
+# ===========================================================================
+    header="5(8,8,8,8,1):1:5(8:1,8:2,8:3,8:4,1:5)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+    cpu[9]="10:1:2:2"
+    cpu[10]="11:1:2:3"
+    cpu[11]="12:1:2:4"
+    cpu[12]="13:1:2:5"
+    cpu[13]="14:1:2:6"
+    cpu[14]="15:1:2:7"
+    cpu[15]="16:1:2:8"
+    cpu[16]="17:1:3:1"
+    cpu[17]="18:1:3:2"
+    cpu[18]="19:1:3:3"
+    cpu[19]="20:1:3:4"
+    cpu[20]="21:1:3:5"
+    cpu[21]="22:1:3:6"
+    cpu[22]="23:1:3:7"
+    cpu[23]="24:1:3:8"
+    cpu[24]="25:1:4:1"
+    cpu[25]="26:1:4:2"
+    cpu[26]="27:1:4:3"
+    cpu[27]="28:1:4:4"
+    cpu[28]="29:1:4:5"
+    cpu[29]="30:1:4:6"
+    cpu[30]="31:1:4:7"
+    cpu[31]="32:1:4:8"
+    cpu[32]="33:1:5:1"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 5
+Formic 0x2B
+Formic 0x2F
+Formic 0x3B
+Formic 0x3F
+ARM 0x6B
+
+LEVEL CPU SIZE 33
+[0x2B/0] Worker 0
+[0x2B/1] Worker 1
+[0x2B/2] Worker 2
+[0x2B/3] Worker 3
+[0x2B/4] Worker 4
+[0x2B/5] Worker 5
+[0x2B/6] Worker 6
+[0x2B/7] Worker 7
+[0x2F/0] Worker 8
+[0x2F/1] Worker 9
+[0x2F/2] Worker 10
+[0x2F/3] Worker 11
+[0x2F/4] Worker 12
+[0x2F/5] Worker 13
+[0x2F/6] Worker 14
+[0x2F/7] Worker 15
+[0x3B/0] Worker 16
+[0x3B/1] Worker 17
+[0x3B/2] Worker 18
+[0x3B/3] Worker 19
+[0x3B/4] Worker 20
+[0x3B/5] Worker 21
+[0x3B/6] Worker 22
+[0x3B/7] Worker 23
+[0x3F/0] Worker 24
+[0x3F/1] Worker 25
+[0x3F/2] Worker 26
+[0x3F/3] Worker 27
+[0x3F/4] Worker 28
+[0x3F/5] Worker 29
+[0x3F/6] Worker 30
+[0x3F/7] Worker 31
+[0x6B/0] Scheduler 0
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_35_HET_HIER)
+# ===========================================================================
+    header="5(8,8,8,8,3):1:5(8:1,8:2,8:3,8:4,3:5)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+    cpu[9]="10:1:2:2"
+    cpu[10]="11:1:2:3"
+    cpu[11]="12:1:2:4"
+    cpu[12]="13:1:2:5"
+    cpu[13]="14:1:2:6"
+    cpu[14]="15:1:2:7"
+    cpu[15]="16:1:2:8"
+    cpu[16]="17:1:3:1"
+    cpu[17]="18:1:3:2"
+    cpu[18]="19:1:3:3"
+    cpu[19]="20:1:3:4"
+    cpu[20]="21:1:3:5"
+    cpu[21]="22:1:3:6"
+    cpu[22]="23:1:3:7"
+    cpu[23]="24:1:3:8"
+    cpu[24]="25:1:4:1"
+    cpu[25]="26:1:4:2"
+    cpu[26]="27:1:4:3"
+    cpu[27]="28:1:4:4"
+    cpu[28]="29:1:4:5"
+    cpu[29]="30:1:4:6"
+    cpu[30]="31:1:4:7"
+    cpu[31]="32:1:4:8"
+    cpu[32]="33:1:5:1"
+    cpu[33]="34:1:5:2"
+    cpu[34]="35:1:5:3"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 5
+Formic 0x2B
+Formic 0x2F
+Formic 0x3B
+Formic 0x3F
+ARM 0x6B
+
+LEVEL CPU SIZE 35
+[0x2B/0] Worker 0
+[0x2B/1] Worker 1
+[0x2B/2] Worker 2
+[0x2B/3] Worker 3
+[0x2B/4] Worker 4
+[0x2B/5] Worker 5
+[0x2B/6] Worker 6
+[0x2B/7] Worker 7
+[0x2F/0] Worker 8
+[0x2F/1] Worker 9
+[0x2F/2] Worker 10
+[0x2F/3] Worker 11
+[0x2F/4] Worker 12
+[0x2F/5] Worker 13
+[0x2F/6] Worker 14
+[0x2F/7] Worker 15
+[0x3B/0] Worker 16
+[0x3B/1] Worker 17
+[0x3B/2] Worker 18
+[0x3B/3] Worker 19
+[0x3B/4] Worker 20
+[0x3B/5] Worker 21
+[0x3B/6] Worker 22
+[0x3B/7] Worker 23
+[0x3F/0] Worker 24
+[0x3F/1] Worker 25
+[0x3F/2] Worker 26
+[0x3F/3] Worker 27
+[0x3F/4] Worker 28
+[0x3F/5] Worker 29
+[0x3F/6] Worker 30
+[0x3F/7] Worker 31
+[0x6B/0] Scheduler 0
+[0x6B/1] Scheduler 1
+[0x6B/2] Scheduler 2
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_52_HET_HIER)
+# ===========================================================================
+    header="7(8,8,8,8,8,8,4):1:7(8:1,8:2,8:3,8:4,8:5,8:6,4:7)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+    cpu[9]="10:1:2:2"
+    cpu[10]="11:1:2:3"
+    cpu[11]="12:1:2:4"
+    cpu[12]="13:1:2:5"
+    cpu[13]="14:1:2:6"
+    cpu[14]="15:1:2:7"
+    cpu[15]="16:1:2:8"
+    cpu[16]="17:1:3:1"
+    cpu[17]="18:1:3:2"
+    cpu[18]="19:1:3:3"
+    cpu[19]="20:1:3:4"
+    cpu[20]="21:1:3:5"
+    cpu[21]="22:1:3:6"
+    cpu[22]="23:1:3:7"
+    cpu[23]="24:1:3:8"
+    cpu[24]="25:1:4:1"
+    cpu[25]="26:1:4:2"
+    cpu[26]="27:1:4:3"
+    cpu[27]="28:1:4:4"
+    cpu[28]="29:1:4:5"
+    cpu[29]="30:1:4:6"
+    cpu[30]="31:1:4:7"
+    cpu[31]="32:1:4:8"
+    cpu[32]="33:1:5:1"
+    cpu[33]="34:1:5:2"
+    cpu[34]="35:1:5:3"
+    cpu[35]="36:1:5:4"
+    cpu[36]="37:1:5:5"
+    cpu[37]="38:1:5:6"
+    cpu[38]="39:1:5:7"
+    cpu[39]="40:1:5:8"
+    cpu[40]="41:1:6:1"
+    cpu[41]="42:1:6:2"
+    cpu[42]="43:1:6:3"
+    cpu[43]="44:1:6:4"
+    cpu[44]="45:1:6:5"
+    cpu[45]="46:1:6:6"
+    cpu[46]="47:1:6:7"
+    cpu[47]="48:1:6:8"
+    cpu[48]="49:1:7:1"
+    cpu[49]="50:1:7:2"
+    cpu[50]="51:1:7:3"
+    cpu[51]="52:1:7:4"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 7
+Formic 0x1B  
+Formic 0x1A  
+Formic 0x2B  
+Formic 0x2A  
+Formic 0x3B  
+Formic 0x3A  
+ARM 0x6B     
+
+LEVEL CPU SIZE 52
+[0x1B/0] Worker 0    
+[0x1B/1] Worker 1    
+[0x1B/2] Worker 2    
+[0x1B/3] Worker 3    
+[0x1B/4] Worker 4    
+[0x1B/5] Worker 5    
+[0x1B/6] Worker 6    
+[0x1B/7] Worker 7    
+[0x1A/0] Worker 8    
+[0x1A/1] Worker 9    
+[0x1A/2] Worker 10    
+[0x1A/3] Worker 11    
+[0x1A/4] Worker 12    
+[0x1A/5] Worker 13    
+[0x1A/6] Worker 14    
+[0x1A/7] Worker 15    
+[0x2B/0] Worker 16    
+[0x2B/1] Worker 17    
+[0x2B/2] Worker 18    
+[0x2B/3] Worker 19    
+[0x2B/4] Worker 20    
+[0x2B/5] Worker 21    
+[0x2B/6] Worker 22    
+[0x2B/7] Worker 23    
+[0x2A/0] Worker 24    
+[0x2A/1] Worker 25    
+[0x2A/2] Worker 26    
+[0x2A/3] Worker 27    
+[0x2A/4] Worker 28    
+[0x2A/5] Worker 29    
+[0x2A/6] Worker 30    
+[0x2A/7] Worker 31    
+[0x3B/0] Worker 32    
+[0x3B/1] Worker 33    
+[0x3B/2] Worker 34    
+[0x3B/3] Worker 35    
+[0x3B/4] Worker 36    
+[0x3B/5] Worker 37    
+[0x3B/6] Worker 38    
+[0x3B/7] Worker 39    
+[0x3A/0] Worker 40    
+[0x3A/1] Worker 41    
+[0x3A/2] Worker 42    
+[0x3A/3] Worker 43    
+[0x3A/4] Worker 44    
+[0x3A/5] Worker 45    
+[0x3A/6] Worker 46    
+[0x3A/7] Worker 47    
+[0x6B/0] Scheduler 0   
+[0x6B/1] Scheduler 1   
+[0x6B/2] Scheduler 2   
+[0x6B/3] Scheduler 3   
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_65_HET_FLAT)
+# ===========================================================================
+    header="9(8,8,8,8,8,8,8,8,1):1:9(8:1,8:2,8:3,8:4,8:5,8:6,8:7,8:8,1:9)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+    cpu[9]="10:1:2:2"
+    cpu[10]="11:1:2:3"
+    cpu[11]="12:1:2:4"
+    cpu[12]="13:1:2:5"
+    cpu[13]="14:1:2:6"
+    cpu[14]="15:1:2:7"
+    cpu[15]="16:1:2:8"
+    cpu[16]="17:1:3:1"
+    cpu[17]="18:1:3:2"
+    cpu[18]="19:1:3:3"
+    cpu[19]="20:1:3:4"
+    cpu[20]="21:1:3:5"
+    cpu[21]="22:1:3:6"
+    cpu[22]="23:1:3:7"
+    cpu[23]="24:1:3:8"
+    cpu[24]="25:1:4:1"
+    cpu[25]="26:1:4:2"
+    cpu[26]="27:1:4:3"
+    cpu[27]="28:1:4:4"
+    cpu[28]="29:1:4:5"
+    cpu[29]="30:1:4:6"
+    cpu[30]="31:1:4:7"
+    cpu[31]="32:1:4:8"
+    cpu[32]="33:1:5:1"
+    cpu[33]="34:1:5:2"
+    cpu[34]="35:1:5:3"
+    cpu[35]="36:1:5:4"
+    cpu[36]="37:1:5:5"
+    cpu[37]="38:1:5:6"
+    cpu[38]="39:1:5:7"
+    cpu[39]="40:1:5:8"
+    cpu[40]="41:1:6:1"
+    cpu[41]="42:1:6:2"
+    cpu[42]="43:1:6:3"
+    cpu[43]="44:1:6:4"
+    cpu[44]="45:1:6:5"
+    cpu[45]="46:1:6:6"
+    cpu[46]="47:1:6:7"
+    cpu[47]="48:1:6:8"
+    cpu[48]="49:1:7:1"
+    cpu[49]="50:1:7:2"
+    cpu[50]="51:1:7:3"
+    cpu[51]="52:1:7:4"
+    cpu[52]="53:1:7:5"
+    cpu[53]="54:1:7:6"
+    cpu[54]="55:1:7:7"
+    cpu[55]="56:1:7:8"
+    cpu[56]="57:1:8:1"
+    cpu[57]="58:1:8:2"
+    cpu[58]="59:1:8:3"
+    cpu[59]="60:1:8:4"
+    cpu[60]="61:1:8:5"
+    cpu[61]="62:1:8:6"
+    cpu[62]="63:1:8:7"
+    cpu[63]="64:1:8:8"
+    cpu[64]="65:1:9:1"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 9
+Formic 0x0B
+Formic 0x0F
+Formic 0x1B
+Formic 0x1F
+Formic 0x0A
+Formic 0x0E
+Formic 0x1A
+Formic 0x1E
+ARM 0x6B
+
+LEVEL CPU SIZE 65
+[0x0B/0] Worker 0
+[0x0B/1] Worker 1
+[0x0B/2] Worker 2
+[0x0B/3] Worker 3
+[0x0B/4] Worker 4
+[0x0B/5] Worker 5
+[0x0B/6] Worker 6
+[0x0B/7] Worker 7
+[0x0F/0] Worker 8
+[0x0F/1] Worker 9
+[0x0F/2] Worker 10
+[0x0F/3] Worker 11
+[0x0F/4] Worker 12
+[0x0F/5] Worker 13
+[0x0F/6] Worker 14
+[0x0F/7] Worker 15
+[0x1B/0] Worker 16
+[0x1B/1] Worker 17
+[0x1B/2] Worker 18
+[0x1B/3] Worker 19
+[0x1B/4] Worker 20
+[0x1B/5] Worker 21
+[0x1B/6] Worker 22
+[0x1B/7] Worker 23
+[0x1F/0] Worker 24
+[0x1F/1] Worker 25
+[0x1F/2] Worker 26
+[0x1F/3] Worker 27
+[0x1F/4] Worker 28
+[0x1F/5] Worker 29
+[0x1F/6] Worker 30
+[0x1F/7] Worker 31
+[0x0A/0] Worker 32
+[0x0A/1] Worker 33
+[0x0A/2] Worker 34
+[0x0A/3] Worker 35
+[0x0A/4] Worker 36
+[0x0A/5] Worker 37
+[0x0A/6] Worker 38
+[0x0A/7] Worker 39
+[0x0E/0] Worker 40
+[0x0E/1] Worker 41
+[0x0E/2] Worker 42
+[0x0E/3] Worker 43
+[0x0E/4] Worker 44
+[0x0E/5] Worker 45
+[0x0E/6] Worker 46
+[0x0E/7] Worker 47
+[0x1A/0] Worker 48
+[0x1A/1] Worker 49
+[0x1A/2] Worker 50
+[0x1A/3] Worker 51
+[0x1A/4] Worker 52
+[0x1A/5] Worker 53
+[0x1A/6] Worker 54
+[0x1A/7] Worker 55
+[0x1E/0] Worker 56
+[0x1E/1] Worker 57
+[0x1E/2] Worker 58
+[0x1E/3] Worker 59
+[0x1E/4] Worker 60
+[0x1E/5] Worker 61
+[0x1E/6] Worker 62
+[0x1E/7] Worker 63
+[0x6B/0] Scheduler 0
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_69_HET_HIER)
+# ===========================================================================
+    header="10(8,8,8,8,8,8,8,8,4,1):1:10(8:1,8:2,8:3,8:4,8:5,8:6,8:7,8:8,4:9,1:10)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+    cpu[9]="10:1:2:2"
+    cpu[10]="11:1:2:3"
+    cpu[11]="12:1:2:4"
+    cpu[12]="13:1:2:5"
+    cpu[13]="14:1:2:6"
+    cpu[14]="15:1:2:7"
+    cpu[15]="16:1:2:8"
+    cpu[16]="17:1:3:1"
+    cpu[17]="18:1:3:2"
+    cpu[18]="19:1:3:3"
+    cpu[19]="20:1:3:4"
+    cpu[20]="21:1:3:5"
+    cpu[21]="22:1:3:6"
+    cpu[22]="23:1:3:7"
+    cpu[23]="24:1:3:8"
+    cpu[24]="25:1:4:1"
+    cpu[25]="26:1:4:2"
+    cpu[26]="27:1:4:3"
+    cpu[27]="28:1:4:4"
+    cpu[28]="29:1:4:5"
+    cpu[29]="30:1:4:6"
+    cpu[30]="31:1:4:7"
+    cpu[31]="32:1:4:8"
+    cpu[32]="33:1:5:1"
+    cpu[33]="34:1:5:2"
+    cpu[34]="35:1:5:3"
+    cpu[35]="36:1:5:4"
+    cpu[36]="37:1:5:5"
+    cpu[37]="38:1:5:6"
+    cpu[38]="39:1:5:7"
+    cpu[39]="40:1:5:8"
+    cpu[40]="41:1:6:1"
+    cpu[41]="42:1:6:2"
+    cpu[42]="43:1:6:3"
+    cpu[43]="44:1:6:4"
+    cpu[44]="45:1:6:5"
+    cpu[45]="46:1:6:6"
+    cpu[46]="47:1:6:7"
+    cpu[47]="48:1:6:8"
+    cpu[48]="49:1:7:1"
+    cpu[49]="50:1:7:2"
+    cpu[50]="51:1:7:3"
+    cpu[51]="52:1:7:4"
+    cpu[52]="53:1:7:5"
+    cpu[53]="54:1:7:6"
+    cpu[54]="55:1:7:7"
+    cpu[55]="56:1:7:8"
+    cpu[56]="57:1:8:1"
+    cpu[57]="58:1:8:2"
+    cpu[58]="59:1:8:3"
+    cpu[59]="60:1:8:4"
+    cpu[60]="61:1:8:5"
+    cpu[61]="62:1:8:6"
+    cpu[62]="63:1:8:7"
+    cpu[63]="64:1:8:8"
+    cpu[64]="65:1:9:1"
+    cpu[65]="66:1:9:2"
+    cpu[66]="67:1:9:3"
+    cpu[67]="68:1:9:4"
+    cpu[68]="69:1:10:1"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 10
+Formic 0x0B  
+Formic 0x0F
+Formic 0x1B  
+Formic 0x1F
+Formic 0x0A  
+Formic 0x0E  
+Formic 0x1A  
+Formic 0x1E  
+ARM 0x4B     
+ARM 0x6B     
+
+LEVEL CPU SIZE 69
+[0x0B/0] Worker 0    
+[0x0B/1] Worker 1    
+[0x0B/2] Worker 2    
+[0x0B/3] Worker 3    
+[0x0B/4] Worker 4    
+[0x0B/5] Worker 5    
+[0x0B/6] Worker 6    
+[0x0B/7] Worker 7    
+[0x0F/0] Worker 8    
+[0x0F/1] Worker 9    
+[0x0F/2] Worker 10    
+[0x0F/3] Worker 11    
+[0x0F/4] Worker 12    
+[0x0F/5] Worker 13    
+[0x0F/6] Worker 14    
+[0x0F/7] Worker 15    
+[0x1B/0] Worker 16    
+[0x1B/1] Worker 17    
+[0x1B/2] Worker 18    
+[0x1B/3] Worker 19    
+[0x1B/4] Worker 20    
+[0x1B/5] Worker 21    
+[0x1B/6] Worker 22    
+[0x1B/7] Worker 23    
+[0x1F/0] Worker 24    
+[0x1F/1] Worker 25    
+[0x1F/2] Worker 26    
+[0x1F/3] Worker 27    
+[0x1F/4] Worker 28    
+[0x1F/5] Worker 29    
+[0x1F/6] Worker 30    
+[0x1F/7] Worker 31    
+[0x0A/0] Worker 32    
+[0x0A/1] Worker 33    
+[0x0A/2] Worker 34    
+[0x0A/3] Worker 35    
+[0x0A/4] Worker 36    
+[0x0A/5] Worker 37    
+[0x0A/6] Worker 38    
+[0x0A/7] Worker 39    
+[0x0E/0] Worker 40    
+[0x0E/1] Worker 41    
+[0x0E/2] Worker 42    
+[0x0E/3] Worker 43    
+[0x0E/4] Worker 44    
+[0x0E/5] Worker 45    
+[0x0E/6] Worker 46    
+[0x0E/7] Worker 47    
+[0x1A/0] Worker 48    
+[0x1A/1] Worker 49    
+[0x1A/2] Worker 50    
+[0x1A/3] Worker 51    
+[0x1A/4] Worker 52    
+[0x1A/5] Worker 53    
+[0x1A/6] Worker 54    
+[0x1A/7] Worker 55    
+[0x1E/0] Worker 56    
+[0x1E/1] Worker 57    
+[0x1E/2] Worker 58    
+[0x1E/3] Worker 59    
+[0x1E/4] Worker 60    
+[0x1E/5] Worker 61    
+[0x1E/6] Worker 62    
+[0x1E/7] Worker 63    
+[0x4B/0] Scheduler 0   
+[0x4B/1] Scheduler 1   
+[0x4B/2] Scheduler 2   
+[0x4B/3] Scheduler 3   
+[0x6B/0] Scheduler 4   
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_120_HET_HIER)
+# ===========================================================================
+    header="16(8,8,8,8,8,8,8,8,8,8,8,8,8,8,4,4):1:16(8:1,8:2,8:3,8:4,8:5,8:6,8:7,8:8,8:9,8:10,8:11,8:12,8:13,8:14,4:15,4:16)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+    cpu[9]="10:1:2:2"
+    cpu[10]="11:1:2:3"
+    cpu[11]="12:1:2:4"
+    cpu[12]="13:1:2:5"
+    cpu[13]="14:1:2:6"
+    cpu[14]="15:1:2:7"
+    cpu[15]="16:1:2:8"
+    cpu[16]="17:1:3:1"
+    cpu[17]="18:1:3:2"
+    cpu[18]="19:1:3:3"
+    cpu[19]="20:1:3:4"
+    cpu[20]="21:1:3:5"
+    cpu[21]="22:1:3:6"
+    cpu[22]="23:1:3:7"
+    cpu[23]="24:1:3:8"
+    cpu[24]="25:1:4:1"
+    cpu[25]="26:1:4:2"
+    cpu[26]="27:1:4:3"
+    cpu[27]="28:1:4:4"
+    cpu[28]="29:1:4:5"
+    cpu[29]="30:1:4:6"
+    cpu[30]="31:1:4:7"
+    cpu[31]="32:1:4:8"
+    cpu[32]="33:1:5:1"
+    cpu[33]="34:1:5:2"
+    cpu[34]="35:1:5:3"
+    cpu[35]="36:1:5:4"
+    cpu[36]="37:1:5:5"
+    cpu[37]="38:1:5:6"
+    cpu[38]="39:1:5:7"
+    cpu[39]="40:1:5:8"
+    cpu[40]="41:1:6:1"
+    cpu[41]="42:1:6:2"
+    cpu[42]="43:1:6:3"
+    cpu[43]="44:1:6:4"
+    cpu[44]="45:1:6:5"
+    cpu[45]="46:1:6:6"
+    cpu[46]="47:1:6:7"
+    cpu[47]="48:1:6:8"
+    cpu[48]="49:1:7:1"
+    cpu[49]="50:1:7:2"
+    cpu[50]="51:1:7:3"
+    cpu[51]="52:1:7:4"
+    cpu[52]="53:1:7:5"
+    cpu[53]="54:1:7:6"
+    cpu[54]="55:1:7:7"
+    cpu[55]="56:1:7:8"
+    cpu[56]="57:1:8:1"
+    cpu[57]="58:1:8:2"
+    cpu[58]="59:1:8:3"
+    cpu[59]="60:1:8:4"
+    cpu[60]="61:1:8:5"
+    cpu[61]="62:1:8:6"
+    cpu[62]="63:1:8:7"
+    cpu[63]="64:1:8:8"
+    cpu[64]="65:1:9:1"
+    cpu[65]="66:1:9:2"
+    cpu[66]="67:1:9:3"
+    cpu[67]="68:1:9:4"
+    cpu[68]="69:1:9:5"
+    cpu[69]="70:1:9:6"
+    cpu[70]="71:1:9:7"
+    cpu[71]="72:1:9:8"
+    cpu[72]="73:1:10:1"
+    cpu[73]="74:1:10:2"
+    cpu[74]="75:1:10:3"
+    cpu[75]="76:1:10:4"
+    cpu[76]="77:1:10:5"
+    cpu[77]="78:1:10:6"
+    cpu[78]="79:1:10:7"
+    cpu[79]="80:1:10:8"
+    cpu[80]="81:1:11:1"
+    cpu[81]="82:1:11:2"
+    cpu[82]="83:1:11:3"
+    cpu[83]="84:1:11:4"
+    cpu[84]="85:1:11:5"
+    cpu[85]="86:1:11:6"
+    cpu[86]="87:1:11:7"
+    cpu[87]="88:1:11:8"
+    cpu[88]="89:1:12:1"
+    cpu[89]="90:1:12:2"
+    cpu[90]="91:1:12:3"
+    cpu[91]="92:1:12:4"
+    cpu[92]="93:1:12:5"
+    cpu[93]="94:1:12:6"
+    cpu[94]="95:1:12:7"
+    cpu[95]="96:1:12:8"
+    cpu[96]="97:1:13:1"
+    cpu[97]="98:1:13:2"
+    cpu[98]="99:1:13:3"
+    cpu[99]="100:1:13:4"
+    cpu[100]="101:1:13:5"
+    cpu[101]="102:1:13:6"
+    cpu[102]="103:1:13:7"
+    cpu[103]="104:1:13:8"
+    cpu[104]="105:1:14:1"
+    cpu[105]="106:1:14:2"
+    cpu[106]="107:1:14:3"
+    cpu[107]="108:1:14:4"
+    cpu[108]="109:1:14:5"
+    cpu[109]="110:1:14:6"
+    cpu[110]="111:1:14:7"
+    cpu[111]="112:1:14:8"
+    cpu[112]="113:1:15:1"
+    cpu[113]="114:1:15:2"
+    cpu[114]="115:1:15:3"
+    cpu[115]="116:1:15:4"
+    cpu[116]="117:1:16:1"
+    cpu[117]="118:1:16:2"
+    cpu[118]="119:1:16:3"
+    cpu[119]="120:1:16:4"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 16
+Formic 0x0B
+Formic 0x0A
+Formic 0x0F
+Formic 0x0E
+Formic 0x1B
+Formic 0x1A
+Formic 0x1F
+Formic 0x1E
+Formic 0x2B
+Formic 0x2A
+Formic 0x2F
+Formic 0x2E
+Formic 0x3B
+Formic 0x3A
+ARM 0x4B     
+ARM 0x6B     
+
+LEVEL CPU SIZE 120
+[0x0B/0] Worker 0    
+[0x0B/1] Worker 1    
+[0x0B/2] Worker 2    
+[0x0B/3] Worker 3    
+[0x0B/4] Worker 4    
+[0x0B/5] Worker 5    
+[0x0B/6] Worker 6    
+[0x0B/7] Worker 7    
+[0x0A/0] Worker 8    
+[0x0A/1] Worker 9    
+[0x0A/2] Worker 10    
+[0x0A/3] Worker 11    
+[0x0A/4] Worker 12    
+[0x0A/5] Worker 13    
+[0x0A/6] Worker 14    
+[0x0A/7] Worker 15    
+[0x0F/0] Worker 16    
+[0x0F/1] Worker 17    
+[0x0F/2] Worker 18    
+[0x0F/3] Worker 19    
+[0x0F/4] Worker 20    
+[0x0F/5] Worker 21    
+[0x0F/6] Worker 22    
+[0x0F/7] Worker 23    
+[0x0E/0] Worker 24    
+[0x0E/1] Worker 25    
+[0x0E/2] Worker 26    
+[0x0E/3] Worker 27    
+[0x0E/4] Worker 28    
+[0x0E/5] Worker 29    
+[0x0E/6] Worker 30    
+[0x0E/7] Worker 31    
+[0x1B/0] Worker 32    
+[0x1B/1] Worker 33    
+[0x1B/2] Worker 34    
+[0x1B/3] Worker 35    
+[0x1B/4] Worker 36    
+[0x1B/5] Worker 37    
+[0x1B/6] Worker 38    
+[0x1B/7] Worker 39    
+[0x1A/0] Worker 40    
+[0x1A/1] Worker 41    
+[0x1A/2] Worker 42    
+[0x1A/3] Worker 43    
+[0x1A/4] Worker 44    
+[0x1A/5] Worker 45    
+[0x1A/6] Worker 46    
+[0x1A/7] Worker 47    
+[0x1F/0] Worker 48    
+[0x1F/1] Worker 49    
+[0x1F/2] Worker 50    
+[0x1F/3] Worker 51    
+[0x1F/4] Worker 52    
+[0x1F/5] Worker 53    
+[0x1F/6] Worker 54    
+[0x1F/7] Worker 55    
+[0x1E/0] Worker 56    
+[0x1E/1] Worker 57    
+[0x1E/2] Worker 58    
+[0x1E/3] Worker 59    
+[0x1E/4] Worker 60    
+[0x1E/5] Worker 61    
+[0x1E/6] Worker 62    
+[0x1E/7] Worker 63    
+[0x2B/0] Worker 64    
+[0x2B/1] Worker 65    
+[0x2B/2] Worker 66    
+[0x2B/3] Worker 67    
+[0x2B/4] Worker 68    
+[0x2B/5] Worker 69    
+[0x2B/6] Worker 70    
+[0x2B/7] Worker 71    
+[0x2A/0] Worker 72    
+[0x2A/1] Worker 73    
+[0x2A/2] Worker 74    
+[0x2A/3] Worker 75    
+[0x2A/4] Worker 76    
+[0x2A/5] Worker 77    
+[0x2A/6] Worker 78    
+[0x2A/7] Worker 79    
+[0x2F/0] Worker 80    
+[0x2F/1] Worker 81    
+[0x2F/2] Worker 82    
+[0x2F/3] Worker 83    
+[0x2F/4] Worker 84    
+[0x2F/5] Worker 85    
+[0x2F/6] Worker 86    
+[0x2F/7] Worker 87    
+[0x2E/0] Worker 88    
+[0x2E/1] Worker 89    
+[0x2E/2] Worker 90    
+[0x2E/3] Worker 91    
+[0x2E/4] Worker 92    
+[0x2E/5] Worker 93    
+[0x2E/6] Worker 94    
+[0x2E/7] Worker 95    
+[0x3B/0] Worker 96    
+[0x3B/1] Worker 97    
+[0x3B/2] Worker 98    
+[0x3B/3] Worker 99    
+[0x3B/4] Worker 100    
+[0x3B/5] Worker 101    
+[0x3B/6] Worker 102    
+[0x3B/7] Worker 103    
+[0x3A/0] Worker 104    
+[0x3A/1] Worker 105    
+[0x3A/2] Worker 106    
+[0x3A/3] Worker 107    
+[0x3A/4] Worker 108    
+[0x3A/5] Worker 109    
+[0x3A/6] Worker 110    
+[0x3A/7] Worker 111    
+[0x4B/0] Scheduler 0   
+[0x4B/1] Scheduler 1   
+[0x4B/2] Scheduler 2   
+[0x4B/3] Scheduler 3   
+[0x6B/0] Scheduler 4   
+[0x6B/1] Scheduler 5   
+[0x6B/2] Scheduler 6   
+[0x6B/3] Scheduler 7   
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_129_HET_FLAT)
+# ===========================================================================
+    header="17(8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1):1:17(8:1,8:2,8:3,8:4,8:5,8:6,8:7,8:8,8:9,8:10,8:11,8:12,8:13,8:14,8:15,8:16,1:17)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+    cpu[9]="10:1:2:2"
+    cpu[10]="11:1:2:3"
+    cpu[11]="12:1:2:4"
+    cpu[12]="13:1:2:5"
+    cpu[13]="14:1:2:6"
+    cpu[14]="15:1:2:7"
+    cpu[15]="16:1:2:8"
+    cpu[16]="17:1:3:1"
+    cpu[17]="18:1:3:2"
+    cpu[18]="19:1:3:3"
+    cpu[19]="20:1:3:4"
+    cpu[20]="21:1:3:5"
+    cpu[21]="22:1:3:6"
+    cpu[22]="23:1:3:7"
+    cpu[23]="24:1:3:8"
+    cpu[24]="25:1:4:1"
+    cpu[25]="26:1:4:2"
+    cpu[26]="27:1:4:3"
+    cpu[27]="28:1:4:4"
+    cpu[28]="29:1:4:5"
+    cpu[29]="30:1:4:6"
+    cpu[30]="31:1:4:7"
+    cpu[31]="32:1:4:8"
+    cpu[32]="33:1:5:1"
+    cpu[33]="34:1:5:2"
+    cpu[34]="35:1:5:3"
+    cpu[35]="36:1:5:4"
+    cpu[36]="37:1:5:5"
+    cpu[37]="38:1:5:6"
+    cpu[38]="39:1:5:7"
+    cpu[39]="40:1:5:8"
+    cpu[40]="41:1:6:1"
+    cpu[41]="42:1:6:2"
+    cpu[42]="43:1:6:3"
+    cpu[43]="44:1:6:4"
+    cpu[44]="45:1:6:5"
+    cpu[45]="46:1:6:6"
+    cpu[46]="47:1:6:7"
+    cpu[47]="48:1:6:8"
+    cpu[48]="49:1:7:1"
+    cpu[49]="50:1:7:2"
+    cpu[50]="51:1:7:3"
+    cpu[51]="52:1:7:4"
+    cpu[52]="53:1:7:5"
+    cpu[53]="54:1:7:6"
+    cpu[54]="55:1:7:7"
+    cpu[55]="56:1:7:8"
+    cpu[56]="57:1:8:1"
+    cpu[57]="58:1:8:2"
+    cpu[58]="59:1:8:3"
+    cpu[59]="60:1:8:4"
+    cpu[60]="61:1:8:5"
+    cpu[61]="62:1:8:6"
+    cpu[62]="63:1:8:7"
+    cpu[63]="64:1:8:8"
+    cpu[64]="65:1:9:1"
+    cpu[65]="66:1:9:2"
+    cpu[66]="67:1:9:3"
+    cpu[67]="68:1:9:4"
+    cpu[68]="69:1:9:5"
+    cpu[69]="70:1:9:6"
+    cpu[70]="71:1:9:7"
+    cpu[71]="72:1:9:8"
+    cpu[72]="73:1:10:1"
+    cpu[73]="74:1:10:2"
+    cpu[74]="75:1:10:3"
+    cpu[75]="76:1:10:4"
+    cpu[76]="77:1:10:5"
+    cpu[77]="78:1:10:6"
+    cpu[78]="79:1:10:7"
+    cpu[79]="80:1:10:8"
+    cpu[80]="81:1:11:1"
+    cpu[81]="82:1:11:2"
+    cpu[82]="83:1:11:3"
+    cpu[83]="84:1:11:4"
+    cpu[84]="85:1:11:5"
+    cpu[85]="86:1:11:6"
+    cpu[86]="87:1:11:7"
+    cpu[87]="88:1:11:8"
+    cpu[88]="89:1:12:1"
+    cpu[89]="90:1:12:2"
+    cpu[90]="91:1:12:3"
+    cpu[91]="92:1:12:4"
+    cpu[92]="93:1:12:5"
+    cpu[93]="94:1:12:6"
+    cpu[94]="95:1:12:7"
+    cpu[95]="96:1:12:8"
+    cpu[96]="97:1:13:1"
+    cpu[97]="98:1:13:2"
+    cpu[98]="99:1:13:3"
+    cpu[99]="100:1:13:4"
+    cpu[100]="101:1:13:5"
+    cpu[101]="102:1:13:6"
+    cpu[102]="103:1:13:7"
+    cpu[103]="104:1:13:8"
+    cpu[104]="105:1:14:1"
+    cpu[105]="106:1:14:2"
+    cpu[106]="107:1:14:3"
+    cpu[107]="108:1:14:4"
+    cpu[108]="109:1:14:5"
+    cpu[109]="110:1:14:6"
+    cpu[110]="111:1:14:7"
+    cpu[111]="112:1:14:8"
+    cpu[112]="113:1:15:1"
+    cpu[113]="114:1:15:2"
+    cpu[114]="115:1:15:3"
+    cpu[115]="116:1:15:4"
+    cpu[116]="117:1:15:5"
+    cpu[117]="118:1:15:6"
+    cpu[118]="119:1:15:7"
+    cpu[119]="120:1:15:8"
+    cpu[120]="121:1:16:1"
+    cpu[121]="122:1:16:2"
+    cpu[122]="123:1:16:3"
+    cpu[123]="124:1:16:4"
+    cpu[124]="125:1:16:5"
+    cpu[125]="126:1:16:6"
+    cpu[126]="127:1:16:7"
+    cpu[127]="128:1:16:8"
+    cpu[128]="129:1:17:1"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 17
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+ARM 0x6B
+
+LEVEL CPU SIZE 129
+[0x0B/0] Worker 0
+[0x0B/1] Worker 1
+[0x0B/2] Worker 2
+[0x0B/3] Worker 3
+[0x0B/4] Worker 4
+[0x0B/5] Worker 5
+[0x0B/6] Worker 6
+[0x0B/7] Worker 7
+[0x0A/0] Worker 8
+[0x0A/1] Worker 9
+[0x0A/2] Worker 10
+[0x0A/3] Worker 11
+[0x0A/4] Worker 12
+[0x0A/5] Worker 13
+[0x0A/6] Worker 14
+[0x0A/7] Worker 15
+[0x09/0] Worker 16
+[0x09/1] Worker 17
+[0x0F/0] Worker 18
+[0x0F/1] Worker 19
+[0x0F/2] Worker 20
+[0x0F/3] Worker 21
+[0x0F/4] Worker 22
+[0x0F/5] Worker 23
+[0x0F/6] Worker 24
+[0x0F/7] Worker 25
+[0x0E/0] Worker 26
+[0x0E/1] Worker 27
+[0x0E/2] Worker 28
+[0x0E/3] Worker 29
+[0x0E/4] Worker 30
+[0x0E/5] Worker 31
+[0x0E/6] Worker 32
+[0x0E/7] Worker 33
+[0x0D/0] Worker 34
+[0x0D/1] Worker 35
+[0x1B/0] Worker 36
+[0x1B/1] Worker 37
+[0x1B/2] Worker 38
+[0x1B/3] Worker 39
+[0x1B/4] Worker 40
+[0x1B/5] Worker 41
+[0x1B/6] Worker 42
+[0x1B/7] Worker 43
+[0x1A/0] Worker 44
+[0x1A/1] Worker 45
+[0x1A/2] Worker 46
+[0x1A/3] Worker 47
+[0x1A/4] Worker 48
+[0x1A/5] Worker 49
+[0x1A/6] Worker 50
+[0x1A/7] Worker 51
+[0x19/0] Worker 52
+[0x19/1] Worker 53
+[0x1F/0] Worker 54
+[0x1F/1] Worker 55
+[0x1F/2] Worker 56
+[0x1F/3] Worker 57
+[0x1F/4] Worker 58
+[0x1F/5] Worker 59
+[0x1F/6] Worker 60
+[0x1F/7] Worker 61
+[0x1E/0] Worker 62
+[0x1E/1] Worker 63
+[0x1E/2] Worker 64
+[0x1E/3] Worker 65
+[0x1E/4] Worker 66
+[0x1E/5] Worker 67
+[0x1E/6] Worker 68
+[0x1E/7] Worker 69
+[0x1D/0] Worker 70
+[0x1D/1] Worker 71
+[0x2B/0] Worker 72
+[0x2B/1] Worker 73
+[0x2B/2] Worker 74
+[0x2B/3] Worker 75
+[0x2B/4] Worker 76
+[0x2B/5] Worker 77
+[0x2B/6] Worker 78
+[0x2B/7] Worker 79
+[0x2A/0] Worker 80
+[0x2A/1] Worker 81
+[0x2A/2] Worker 82
+[0x2A/3] Worker 83
+[0x2A/4] Worker 84
+[0x2A/5] Worker 85
+[0x2A/6] Worker 86
+[0x2A/7] Worker 87
+[0x29/0] Worker 88
+[0x29/1] Worker 89
+[0x2F/0] Worker 90
+[0x2F/1] Worker 91
+[0x2F/2] Worker 92
+[0x2F/3] Worker 93
+[0x2F/4] Worker 94
+[0x2F/5] Worker 95
+[0x2F/6] Worker 96
+[0x2F/7] Worker 97
+[0x2E/0] Worker 98
+[0x2E/1] Worker 99
+[0x2E/2] Worker 100
+[0x2E/3] Worker 101
+[0x2E/4] Worker 102
+[0x2E/5] Worker 103
+[0x2E/6] Worker 104
+[0x2E/7] Worker 105
+[0x2D/0] Worker 106
+[0x2D/1] Worker 107
+[0x2D/2] Worker 108
+[0x3B/0] Worker 109
+[0x3B/1] Worker 110
+[0x3B/2] Worker 111
+[0x3B/3] Worker 112
+[0x3B/4] Worker 113
+[0x3B/5] Worker 114
+[0x3B/6] Worker 115
+[0x3B/7] Worker 116
+[0x3A/0] Worker 117
+[0x3A/1] Worker 118
+[0x3A/2] Worker 119
+[0x3A/3] Worker 120
+[0x3A/4] Worker 121
+[0x3A/5] Worker 122
+[0x3A/6] Worker 123
+[0x3A/7] Worker 124
+[0x39/0] Worker 125
+[0x39/1] Worker 126
+[0x39/2] Worker 127
+[0x6B/0] Scheduler 0
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_136_HET_HIER)
+# ===========================================================================
+    header="18(8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,4,4):1:18(8:1,8:2,8:3,8:4,8:5,8:6,8:7,8:8,8:9,8:10,8:11,8:12,8:13,8:14,8:15,8:16,4:17,4:18)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+    cpu[9]="10:1:2:2"
+    cpu[10]="11:1:2:3"
+    cpu[11]="12:1:2:4"
+    cpu[12]="13:1:2:5"
+    cpu[13]="14:1:2:6"
+    cpu[14]="15:1:2:7"
+    cpu[15]="16:1:2:8"
+    cpu[16]="17:1:3:1"
+    cpu[17]="18:1:3:2"
+    cpu[18]="19:1:3:3"
+    cpu[19]="20:1:3:4"
+    cpu[20]="21:1:3:5"
+    cpu[21]="22:1:3:6"
+    cpu[22]="23:1:3:7"
+    cpu[23]="24:1:3:8"
+    cpu[24]="25:1:4:1"
+    cpu[25]="26:1:4:2"
+    cpu[26]="27:1:4:3"
+    cpu[27]="28:1:4:4"
+    cpu[28]="29:1:4:5"
+    cpu[29]="30:1:4:6"
+    cpu[30]="31:1:4:7"
+    cpu[31]="32:1:4:8"
+    cpu[32]="33:1:5:1"
+    cpu[33]="34:1:5:2"
+    cpu[34]="35:1:5:3"
+    cpu[35]="36:1:5:4"
+    cpu[36]="37:1:5:5"
+    cpu[37]="38:1:5:6"
+    cpu[38]="39:1:5:7"
+    cpu[39]="40:1:5:8"
+    cpu[40]="41:1:6:1"
+    cpu[41]="42:1:6:2"
+    cpu[42]="43:1:6:3"
+    cpu[43]="44:1:6:4"
+    cpu[44]="45:1:6:5"
+    cpu[45]="46:1:6:6"
+    cpu[46]="47:1:6:7"
+    cpu[47]="48:1:6:8"
+    cpu[48]="49:1:7:1"
+    cpu[49]="50:1:7:2"
+    cpu[50]="51:1:7:3"
+    cpu[51]="52:1:7:4"
+    cpu[52]="53:1:7:5"
+    cpu[53]="54:1:7:6"
+    cpu[54]="55:1:7:7"
+    cpu[55]="56:1:7:8"
+    cpu[56]="57:1:8:1"
+    cpu[57]="58:1:8:2"
+    cpu[58]="59:1:8:3"
+    cpu[59]="60:1:8:4"
+    cpu[60]="61:1:8:5"
+    cpu[61]="62:1:8:6"
+    cpu[62]="63:1:8:7"
+    cpu[63]="64:1:8:8"
+    cpu[64]="65:1:9:1"
+    cpu[65]="66:1:9:2"
+    cpu[66]="67:1:9:3"
+    cpu[67]="68:1:9:4"
+    cpu[68]="69:1:9:5"
+    cpu[69]="70:1:9:6"
+    cpu[70]="71:1:9:7"
+    cpu[71]="72:1:9:8"
+    cpu[72]="73:1:10:1"
+    cpu[73]="74:1:10:2"
+    cpu[74]="75:1:10:3"
+    cpu[75]="76:1:10:4"
+    cpu[76]="77:1:10:5"
+    cpu[77]="78:1:10:6"
+    cpu[78]="79:1:10:7"
+    cpu[79]="80:1:10:8"
+    cpu[80]="81:1:11:1"
+    cpu[81]="82:1:11:2"
+    cpu[82]="83:1:11:3"
+    cpu[83]="84:1:11:4"
+    cpu[84]="85:1:11:5"
+    cpu[85]="86:1:11:6"
+    cpu[86]="87:1:11:7"
+    cpu[87]="88:1:11:8"
+    cpu[88]="89:1:12:1"
+    cpu[89]="90:1:12:2"
+    cpu[90]="91:1:12:3"
+    cpu[91]="92:1:12:4"
+    cpu[92]="93:1:12:5"
+    cpu[93]="94:1:12:6"
+    cpu[94]="95:1:12:7"
+    cpu[95]="96:1:12:8"
+    cpu[96]="97:1:13:1"
+    cpu[97]="98:1:13:2"
+    cpu[98]="99:1:13:3"
+    cpu[99]="100:1:13:4"
+    cpu[100]="101:1:13:5"
+    cpu[101]="102:1:13:6"
+    cpu[102]="103:1:13:7"
+    cpu[103]="104:1:13:8"
+    cpu[104]="105:1:14:1"
+    cpu[105]="106:1:14:2"
+    cpu[106]="107:1:14:3"
+    cpu[107]="108:1:14:4"
+    cpu[108]="109:1:14:5"
+    cpu[109]="110:1:14:6"
+    cpu[110]="111:1:14:7"
+    cpu[111]="112:1:14:8"
+    cpu[112]="113:1:15:1"
+    cpu[113]="114:1:15:2"
+    cpu[114]="115:1:15:3"
+    cpu[115]="116:1:15:4"
+    cpu[116]="117:1:15:5"
+    cpu[117]="118:1:15:6"
+    cpu[118]="119:1:15:7"
+    cpu[119]="120:1:15:8"
+    cpu[120]="121:1:16:1"
+    cpu[121]="122:1:16:2"
+    cpu[122]="123:1:16:3"
+    cpu[123]="124:1:16:4"
+    cpu[124]="125:1:16:5"
+    cpu[125]="126:1:16:6"
+    cpu[126]="127:1:16:7"
+    cpu[127]="128:1:16:8"
+    cpu[128]="129:1:17:1"
+    cpu[129]="130:1:17:2"
+    cpu[130]="131:1:17:3"
+    cpu[131]="132:1:17:4"
+    cpu[132]="133:1:18:1"
+    cpu[133]="134:1:18:2"
+    cpu[134]="135:1:18:3"
+    cpu[135]="136:1:18:4"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 18
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+FIXME
+ARM 0x4B
+ARM 0x6B
+
+LEVEL CPU SIZE 136
+[0x0B/0] Worker 0
+[0x0B/1] Worker 1
+[0x0B/2] Worker 2
+[0x0B/3] Worker 3
+[0x0B/4] Worker 4
+[0x0B/5] Worker 5
+[0x0B/6] Worker 6
+[0x0B/7] Worker 7
+[0x0A/0] Worker 8
+[0x0A/1] Worker 9
+[0x0A/2] Worker 10
+[0x0A/3] Worker 11
+[0x0A/4] Worker 12
+[0x0A/5] Worker 13
+[0x0A/6] Worker 14
+[0x0A/7] Worker 15
+[0x09/0] Worker 16
+[0x09/1] Worker 17
+[0x0F/0] Worker 18
+[0x0F/1] Worker 19
+[0x0F/2] Worker 20
+[0x0F/3] Worker 21
+[0x0F/4] Worker 22
+[0x0F/5] Worker 23
+[0x0F/6] Worker 24
+[0x0F/7] Worker 25
+[0x0E/0] Worker 26
+[0x0E/1] Worker 27
+[0x0E/2] Worker 28
+[0x0E/3] Worker 29
+[0x0E/4] Worker 30
+[0x0E/5] Worker 31
+[0x0E/6] Worker 32
+[0x0E/7] Worker 33
+[0x0D/0] Worker 34
+[0x0D/1] Worker 35
+[0x1B/0] Worker 36
+[0x1B/1] Worker 37
+[0x1B/2] Worker 38
+[0x1B/3] Worker 39
+[0x1B/4] Worker 40
+[0x1B/5] Worker 41
+[0x1B/6] Worker 42
+[0x1B/7] Worker 43
+[0x1A/0] Worker 44
+[0x1A/1] Worker 45
+[0x1A/2] Worker 46
+[0x1A/3] Worker 47
+[0x1A/4] Worker 48
+[0x1A/5] Worker 49
+[0x1A/6] Worker 50
+[0x1A/7] Worker 51
+[0x19/0] Worker 52
+[0x19/1] Worker 53
+[0x1F/0] Worker 54
+[0x1F/1] Worker 55
+[0x1F/2] Worker 56
+[0x1F/3] Worker 57
+[0x1F/4] Worker 58
+[0x1F/5] Worker 59
+[0x1F/6] Worker 60
+[0x1F/7] Worker 61
+[0x1E/0] Worker 62
+[0x1E/1] Worker 63
+[0x1E/2] Worker 64
+[0x1E/3] Worker 65
+[0x1E/4] Worker 66
+[0x1E/5] Worker 67
+[0x1E/6] Worker 68
+[0x1E/7] Worker 69
+[0x1D/0] Worker 70
+[0x1D/1] Worker 71
+[0x2B/0] Worker 72
+[0x2B/1] Worker 73
+[0x2B/2] Worker 74
+[0x2B/3] Worker 75
+[0x2B/4] Worker 76
+[0x2B/5] Worker 77
+[0x2B/6] Worker 78
+[0x2B/7] Worker 79
+[0x2A/0] Worker 80
+[0x2A/1] Worker 81
+[0x2A/2] Worker 82
+[0x2A/3] Worker 83
+[0x2A/4] Worker 84
+[0x2A/5] Worker 85
+[0x2A/6] Worker 86
+[0x2A/7] Worker 87
+[0x29/0] Worker 88
+[0x29/1] Worker 89
+[0x2F/0] Worker 90
+[0x2F/1] Worker 91
+[0x2F/2] Worker 92
+[0x2F/3] Worker 93
+[0x2F/4] Worker 94
+[0x2F/5] Worker 95
+[0x2F/6] Worker 96
+[0x2F/7] Worker 97
+[0x2E/0] Worker 98
+[0x2E/1] Worker 99
+[0x2E/2] Worker 100
+[0x2E/3] Worker 101
+[0x2E/4] Worker 102
+[0x2E/5] Worker 103
+[0x2E/6] Worker 104
+[0x2E/7] Worker 105
+[0x2D/0] Worker 106
+[0x2D/1] Worker 107
+[0x2D/2] Worker 108
+[0x3B/0] Worker 109
+[0x3B/1] Worker 110
+[0x3B/2] Worker 111
+[0x3B/3] Worker 112
+[0x3B/4] Worker 113
+[0x3B/5] Worker 114
+[0x3B/6] Worker 115
+[0x3B/7] Worker 116
+[0x3A/0] Worker 117
+[0x3A/1] Worker 118
+[0x3A/2] Worker 119
+[0x3A/3] Worker 120
+[0x3A/4] Worker 121
+[0x3A/5] Worker 122
+[0x3A/6] Worker 123
+[0x3A/7] Worker 124
+[0x39/0] Worker 125
+[0x39/1] Worker 126
+[0x39/2] Worker 127
+[0x4B/0] Scheduler 0
+[0x4B/1] Scheduler 1
+[0x4B/2] Scheduler 2
+[0x4B/3] Scheduler 3
+[0x6B/0] Scheduler 4
+[0x6B/1] Scheduler 5
+[0x6B/2] Scheduler 6
+[0x6B/3] Scheduler 7
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_232_HET_HIER)
+# ===========================================================================
+    header="30(8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,4,4):1:30(8:1,8:2,8:3,8:4,8:5,8:6,8:7,8:8,8:9,8:10,8:11,8:12,8:13,8:14,8:15,8:16,8:17,8:18,8:19,8:20,8:21,8:22,8:23,8:24,8:25,8:26,8:27,8:28,4:29,4:30)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+    cpu[9]="10:1:2:2"
+    cpu[10]="11:1:2:3"
+    cpu[11]="12:1:2:4"
+    cpu[12]="13:1:2:5"
+    cpu[13]="14:1:2:6"
+    cpu[14]="15:1:2:7"
+    cpu[15]="16:1:2:8"
+    cpu[16]="17:1:3:1"
+    cpu[17]="18:1:3:2"
+    cpu[18]="19:1:3:3"
+    cpu[19]="20:1:3:4"
+    cpu[20]="21:1:3:5"
+    cpu[21]="22:1:3:6"
+    cpu[22]="23:1:3:7"
+    cpu[23]="24:1:3:8"
+    cpu[24]="25:1:4:1"
+    cpu[25]="26:1:4:2"
+    cpu[26]="27:1:4:3"
+    cpu[27]="28:1:4:4"
+    cpu[28]="29:1:4:5"
+    cpu[29]="30:1:4:6"
+    cpu[30]="31:1:4:7"
+    cpu[31]="32:1:4:8"
+    cpu[32]="33:1:5:1"
+    cpu[33]="34:1:5:2"
+    cpu[34]="35:1:5:3"
+    cpu[35]="36:1:5:4"
+    cpu[36]="37:1:5:5"
+    cpu[37]="38:1:5:6"
+    cpu[38]="39:1:5:7"
+    cpu[39]="40:1:5:8"
+    cpu[40]="41:1:6:1"
+    cpu[41]="42:1:6:2"
+    cpu[42]="43:1:6:3"
+    cpu[43]="44:1:6:4"
+    cpu[44]="45:1:6:5"
+    cpu[45]="46:1:6:6"
+    cpu[46]="47:1:6:7"
+    cpu[47]="48:1:6:8"
+    cpu[48]="49:1:7:1"
+    cpu[49]="50:1:7:2"
+    cpu[50]="51:1:7:3"
+    cpu[51]="52:1:7:4"
+    cpu[52]="53:1:7:5"
+    cpu[53]="54:1:7:6"
+    cpu[54]="55:1:7:7"
+    cpu[55]="56:1:7:8"
+    cpu[56]="57:1:8:1"
+    cpu[57]="58:1:8:2"
+    cpu[58]="59:1:8:3"
+    cpu[59]="60:1:8:4"
+    cpu[60]="61:1:8:5"
+    cpu[61]="62:1:8:6"
+    cpu[62]="63:1:8:7"
+    cpu[63]="64:1:8:8"
+    cpu[64]="65:1:9:1"
+    cpu[65]="66:1:9:2"
+    cpu[66]="67:1:9:3"
+    cpu[67]="68:1:9:4"
+    cpu[68]="69:1:9:5"
+    cpu[69]="70:1:9:6"
+    cpu[70]="71:1:9:7"
+    cpu[71]="72:1:9:8"
+    cpu[72]="73:1:10:1"
+    cpu[73]="74:1:10:2"
+    cpu[74]="75:1:10:3"
+    cpu[75]="76:1:10:4"
+    cpu[76]="77:1:10:5"
+    cpu[77]="78:1:10:6"
+    cpu[78]="79:1:10:7"
+    cpu[79]="80:1:10:8"
+    cpu[80]="81:1:11:1"
+    cpu[81]="82:1:11:2"
+    cpu[82]="83:1:11:3"
+    cpu[83]="84:1:11:4"
+    cpu[84]="85:1:11:5"
+    cpu[85]="86:1:11:6"
+    cpu[86]="87:1:11:7"
+    cpu[87]="88:1:11:8"
+    cpu[88]="89:1:12:1"
+    cpu[89]="90:1:12:2"
+    cpu[90]="91:1:12:3"
+    cpu[91]="92:1:12:4"
+    cpu[92]="93:1:12:5"
+    cpu[93]="94:1:12:6"
+    cpu[94]="95:1:12:7"
+    cpu[95]="96:1:12:8"
+    cpu[96]="97:1:13:1"
+    cpu[97]="98:1:13:2"
+    cpu[98]="99:1:13:3"
+    cpu[99]="100:1:13:4"
+    cpu[100]="101:1:13:5"
+    cpu[101]="102:1:13:6"
+    cpu[102]="103:1:13:7"
+    cpu[103]="104:1:13:8"
+    cpu[104]="105:1:14:1"
+    cpu[105]="106:1:14:2"
+    cpu[106]="107:1:14:3"
+    cpu[107]="108:1:14:4"
+    cpu[108]="109:1:14:5"
+    cpu[109]="110:1:14:6"
+    cpu[110]="111:1:14:7"
+    cpu[111]="112:1:14:8"
+    cpu[112]="113:1:15:1"
+    cpu[113]="114:1:15:2"
+    cpu[114]="115:1:15:3"
+    cpu[115]="116:1:15:4"
+    cpu[116]="117:1:15:5"
+    cpu[117]="118:1:15:6"
+    cpu[118]="119:1:15:7"
+    cpu[119]="120:1:15:8"
+    cpu[120]="121:1:16:1"
+    cpu[121]="122:1:16:2"
+    cpu[122]="123:1:16:3"
+    cpu[123]="124:1:16:4"
+    cpu[124]="125:1:16:5"
+    cpu[125]="126:1:16:6"
+    cpu[126]="127:1:16:7"
+    cpu[127]="128:1:16:8"
+    cpu[128]="129:1:17:1"
+    cpu[129]="130:1:17:2"
+    cpu[130]="131:1:17:3"
+    cpu[131]="132:1:17:4"
+    cpu[132]="133:1:17:5"
+    cpu[133]="134:1:17:6"
+    cpu[134]="135:1:17:7"
+    cpu[135]="136:1:17:8"
+    cpu[136]="137:1:18:1"
+    cpu[137]="138:1:18:2"
+    cpu[138]="139:1:18:3"
+    cpu[139]="140:1:18:4"
+    cpu[140]="141:1:18:5"
+    cpu[141]="142:1:18:6"
+    cpu[142]="143:1:18:7"
+    cpu[143]="144:1:18:8"
+    cpu[144]="145:1:19:1"
+    cpu[145]="146:1:19:2"
+    cpu[146]="147:1:19:3"
+    cpu[147]="148:1:19:4"
+    cpu[148]="149:1:19:5"
+    cpu[149]="150:1:19:6"
+    cpu[150]="151:1:19:7"
+    cpu[151]="152:1:19:8"
+    cpu[152]="153:1:20:1"
+    cpu[153]="154:1:20:2"
+    cpu[154]="155:1:20:3"
+    cpu[155]="156:1:20:4"
+    cpu[156]="157:1:20:5"
+    cpu[157]="158:1:20:6"
+    cpu[158]="159:1:20:7"
+    cpu[159]="160:1:20:8"
+    cpu[160]="161:1:21:1"
+    cpu[161]="162:1:21:2"
+    cpu[162]="163:1:21:3"
+    cpu[163]="164:1:21:4"
+    cpu[164]="165:1:21:5"
+    cpu[165]="166:1:21:6"
+    cpu[166]="167:1:21:7"
+    cpu[167]="168:1:21:8"
+    cpu[168]="169:1:22:1"
+    cpu[169]="170:1:22:2"
+    cpu[170]="171:1:22:3"
+    cpu[171]="172:1:22:4"
+    cpu[172]="173:1:22:5"
+    cpu[173]="174:1:22:6"
+    cpu[174]="175:1:22:7"
+    cpu[175]="176:1:22:8"
+    cpu[176]="177:1:23:1"
+    cpu[177]="178:1:23:2"
+    cpu[178]="179:1:23:3"
+    cpu[179]="180:1:23:4"
+    cpu[180]="181:1:23:5"
+    cpu[181]="182:1:23:6"
+    cpu[182]="183:1:23:7"
+    cpu[183]="184:1:23:8"
+    cpu[184]="185:1:24:1"
+    cpu[185]="186:1:24:2"
+    cpu[186]="187:1:24:3"
+    cpu[187]="188:1:24:4"
+    cpu[188]="189:1:24:5"
+    cpu[189]="190:1:24:6"
+    cpu[190]="191:1:24:7"
+    cpu[191]="192:1:24:8"
+    cpu[192]="193:1:25:1"
+    cpu[193]="194:1:25:2"
+    cpu[194]="195:1:25:3"
+    cpu[195]="196:1:25:4"
+    cpu[196]="197:1:25:5"
+    cpu[197]="198:1:25:6"
+    cpu[198]="199:1:25:7"
+    cpu[199]="200:1:25:8"
+    cpu[200]="201:1:26:1"
+    cpu[201]="202:1:26:2"
+    cpu[202]="203:1:26:3"
+    cpu[203]="204:1:26:4"
+    cpu[204]="205:1:26:5"
+    cpu[205]="206:1:26:6"
+    cpu[206]="207:1:26:7"
+    cpu[207]="208:1:26:8"
+    cpu[208]="209:1:27:1"
+    cpu[209]="210:1:27:2"
+    cpu[210]="211:1:27:3"
+    cpu[211]="212:1:27:4"
+    cpu[212]="213:1:27:5"
+    cpu[213]="214:1:27:6"
+    cpu[214]="215:1:27:7"
+    cpu[215]="216:1:27:8"
+    cpu[216]="217:1:28:1"
+    cpu[217]="218:1:28:2"
+    cpu[218]="219:1:28:3"
+    cpu[219]="220:1:28:4"
+    cpu[220]="221:1:28:5"
+    cpu[221]="222:1:28:6"
+    cpu[222]="223:1:28:7"
+    cpu[223]="224:1:28:8"
+    cpu[224]="225:1:29:1"
+    cpu[225]="226:1:29:2"
+    cpu[226]="227:1:29:3"
+    cpu[227]="228:1:29:4"
+    cpu[228]="229:1:30:1"
+    cpu[229]="230:1:30:2"
+    cpu[230]="231:1:30:3"
+    cpu[231]="232:1:30:4"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 30
+Formic 0x0B
+Formic 0x0A
+Formic 0x09
+Formic 0x08
+Formic 0x0F
+Formic 0x0E
+Formic 0x0D
+Formic 0x0C
+Formic 0x1B
+Formic 0x1A
+Formic 0x19
+Formic 0x18
+Formic 0x1F
+Formic 0x1E
+Formic 0x1D
+Formic 0x1C
+Formic 0x2B
+Formic 0x2A
+Formic 0x29
+Formic 0x28
+Formic 0x2F
+Formic 0x2E
+Formic 0x2D
+Formic 0x2C
+Formic 0x3B
+Formic 0x3A
+Formic 0x39
+Formic 0x38
+ARM 0x4B     
+ARM 0x6B     
+
+LEVEL CPU SIZE 232
+[0x0B/0] Worker 0    
+[0x0B/1] Worker 1    
+[0x0B/2] Worker 2    
+[0x0B/3] Worker 3    
+[0x0B/4] Worker 4    
+[0x0B/5] Worker 5    
+[0x0B/6] Worker 6    
+[0x0B/7] Worker 7    
+[0x0A/0] Worker 8    
+[0x0A/1] Worker 9    
+[0x0A/2] Worker 10    
+[0x0A/3] Worker 11    
+[0x0A/4] Worker 12    
+[0x0A/5] Worker 13    
+[0x0A/6] Worker 14    
+[0x0A/7] Worker 15    
+[0x09/0] Worker 16    
+[0x09/1] Worker 17    
+[0x09/2] Worker 18    
+[0x09/3] Worker 19    
+[0x09/4] Worker 20    
+[0x09/5] Worker 21    
+[0x09/6] Worker 22    
+[0x09/7] Worker 23    
+[0x08/0] Worker 24    
+[0x08/1] Worker 25    
+[0x08/2] Worker 26    
+[0x08/3] Worker 27    
+[0x08/4] Worker 28    
+[0x08/5] Worker 29    
+[0x08/6] Worker 30    
+[0x08/7] Worker 31    
+[0x0F/0] Worker 32    
+[0x0F/1] Worker 33    
+[0x0F/2] Worker 34    
+[0x0F/3] Worker 35    
+[0x0F/4] Worker 36    
+[0x0F/5] Worker 37    
+[0x0F/6] Worker 38    
+[0x0F/7] Worker 39    
+[0x0E/0] Worker 40    
+[0x0E/1] Worker 41    
+[0x0E/2] Worker 42    
+[0x0E/3] Worker 43    
+[0x0E/4] Worker 44    
+[0x0E/5] Worker 45    
+[0x0E/6] Worker 46    
+[0x0E/7] Worker 47    
+[0x0D/0] Worker 48    
+[0x0D/1] Worker 49    
+[0x0D/2] Worker 50    
+[0x0D/3] Worker 51    
+[0x0D/4] Worker 52    
+[0x0D/5] Worker 53    
+[0x0D/6] Worker 54    
+[0x0D/7] Worker 55    
+[0x0C/0] Worker 56    
+[0x0C/1] Worker 57    
+[0x0C/2] Worker 58    
+[0x0C/3] Worker 59    
+[0x0C/4] Worker 60    
+[0x0C/5] Worker 61    
+[0x0C/6] Worker 62    
+[0x0C/7] Worker 63    
+[0x1B/0] Worker 64    
+[0x1B/1] Worker 65    
+[0x1B/2] Worker 66    
+[0x1B/3] Worker 67    
+[0x1B/4] Worker 68    
+[0x1B/5] Worker 69    
+[0x1B/6] Worker 70    
+[0x1B/7] Worker 71    
+[0x1A/0] Worker 72    
+[0x1A/1] Worker 73    
+[0x1A/2] Worker 74    
+[0x1A/3] Worker 75    
+[0x1A/4] Worker 76    
+[0x1A/5] Worker 77    
+[0x1A/6] Worker 78    
+[0x1A/7] Worker 79    
+[0x19/0] Worker 80    
+[0x19/1] Worker 81    
+[0x19/2] Worker 82    
+[0x19/3] Worker 83    
+[0x19/4] Worker 84    
+[0x19/5] Worker 85    
+[0x19/6] Worker 86    
+[0x19/7] Worker 87    
+[0x18/0] Worker 88    
+[0x18/1] Worker 89    
+[0x18/2] Worker 90    
+[0x18/3] Worker 91    
+[0x18/4] Worker 92    
+[0x18/5] Worker 93    
+[0x18/6] Worker 94    
+[0x18/7] Worker 95    
+[0x1F/0] Worker 96    
+[0x1F/1] Worker 97    
+[0x1F/2] Worker 98    
+[0x1F/3] Worker 99    
+[0x1F/4] Worker 100    
+[0x1F/5] Worker 101    
+[0x1F/6] Worker 102    
+[0x1F/7] Worker 103    
+[0x1E/0] Worker 104    
+[0x1E/1] Worker 105    
+[0x1E/2] Worker 106    
+[0x1E/3] Worker 107    
+[0x1E/4] Worker 108    
+[0x1E/5] Worker 109    
+[0x1E/6] Worker 110    
+[0x1E/7] Worker 111    
+[0x1D/0] Worker 112    
+[0x1D/1] Worker 113    
+[0x1D/2] Worker 114    
+[0x1D/3] Worker 115    
+[0x1D/4] Worker 116    
+[0x1D/5] Worker 117    
+[0x1D/6] Worker 118    
+[0x1D/7] Worker 119    
+[0x1C/0] Worker 120    
+[0x1C/1] Worker 121    
+[0x1C/2] Worker 122    
+[0x1C/3] Worker 123    
+[0x1C/4] Worker 124    
+[0x1C/5] Worker 125    
+[0x1C/6] Worker 126    
+[0x1C/7] Worker 127    
+[0x2B/0] Worker 128    
+[0x2B/1] Worker 129    
+[0x2B/2] Worker 130    
+[0x2B/3] Worker 131    
+[0x2B/4] Worker 132    
+[0x2B/5] Worker 133    
+[0x2B/6] Worker 134    
+[0x2B/7] Worker 135    
+[0x2A/0] Worker 136    
+[0x2A/1] Worker 137    
+[0x2A/2] Worker 138    
+[0x2A/3] Worker 139    
+[0x2A/4] Worker 140    
+[0x2A/5] Worker 141    
+[0x2A/6] Worker 142    
+[0x2A/7] Worker 143    
+[0x29/0] Worker 144    
+[0x29/1] Worker 145    
+[0x29/2] Worker 146    
+[0x29/3] Worker 147    
+[0x29/4] Worker 148    
+[0x29/5] Worker 149    
+[0x29/6] Worker 150    
+[0x29/7] Worker 151    
+[0x28/0] Worker 152    
+[0x28/1] Worker 153    
+[0x28/2] Worker 154    
+[0x28/3] Worker 155    
+[0x28/4] Worker 156    
+[0x28/5] Worker 157    
+[0x28/6] Worker 158    
+[0x28/7] Worker 159    
+[0x2F/0] Worker 160    
+[0x2F/1] Worker 161    
+[0x2F/2] Worker 162    
+[0x2F/3] Worker 163    
+[0x2F/4] Worker 164    
+[0x2F/5] Worker 165    
+[0x2F/6] Worker 166    
+[0x2F/7] Worker 167    
+[0x2E/0] Worker 168    
+[0x2E/1] Worker 169    
+[0x2E/2] Worker 170    
+[0x2E/3] Worker 171    
+[0x2E/4] Worker 172    
+[0x2E/5] Worker 173    
+[0x2E/6] Worker 174    
+[0x2E/7] Worker 175    
+[0x2D/0] Worker 176    
+[0x2D/1] Worker 177    
+[0x2D/2] Worker 178    
+[0x2D/3] Worker 179    
+[0x2D/4] Worker 180    
+[0x2D/5] Worker 181    
+[0x2D/6] Worker 182    
+[0x2D/7] Worker 183    
+[0x2C/0] Worker 184    
+[0x2C/1] Worker 185    
+[0x2C/2] Worker 186    
+[0x2C/3] Worker 187    
+[0x2C/4] Worker 188    
+[0x2C/5] Worker 189    
+[0x2C/6] Worker 190    
+[0x2C/7] Worker 191    
+[0x3B/0] Worker 192    
+[0x3B/1] Worker 193    
+[0x3B/2] Worker 194    
+[0x3B/3] Worker 195    
+[0x3B/4] Worker 196    
+[0x3B/5] Worker 197    
+[0x3B/6] Worker 198    
+[0x3B/7] Worker 199    
+[0x3A/0] Worker 200    
+[0x3A/1] Worker 201    
+[0x3A/2] Worker 202    
+[0x3A/3] Worker 203    
+[0x3A/4] Worker 204    
+[0x3A/5] Worker 205    
+[0x3A/6] Worker 206    
+[0x3A/7] Worker 207    
+[0x39/0] Worker 208    
+[0x39/1] Worker 209    
+[0x39/2] Worker 210    
+[0x39/3] Worker 211    
+[0x39/4] Worker 212    
+[0x39/5] Worker 213    
+[0x39/6] Worker 214    
+[0x39/7] Worker 215    
+[0x38/0] Worker 216    
+[0x38/1] Worker 217    
+[0x38/2] Worker 218    
+[0x38/3] Worker 219    
+[0x38/4] Worker 220    
+[0x38/5] Worker 221    
+[0x38/6] Worker 222    
+[0x38/7] Worker 223    
+[0x4B/0] Scheduler 0   
+[0x4B/1] Scheduler 1   
+[0x4B/2] Scheduler 2   
+[0x4B/3] Scheduler 3   
+[0x6B/0] Scheduler 4   
+[0x6B/1] Scheduler 5   
+[0x6B/2] Scheduler 6   
+[0x6B/3] Scheduler 7   
+EOF
+    ;;
+
+# ===========================================================================
+  CFG_520_HET_HIER3)
+# ===========================================================================
+    header="66(8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,4,4):1:66(8:1,8:2,8:3,8:4,8:5,8:6,8:7,8:8,8:9,8:10,8:11,8:12,8:13,8:14,8:15,8:16,8:17,8:18,8:19,8:20,8:21,8:22,8:23,8:24,8:25,8:26,8:27,8:28,8:29,8:30,8:31,8:32,8:33,8:34,8:35,8:36,8:37,8:38,8:39,8:40,8:41,8:42,8:43,8:44,8:45,8:46,8:47,8:48,8:49,8:50,8:51,8:52,8:53,8:54,8:55,8:56,8:57,8:58,8:59,8:60,8:61,8:62,8:63,8:64,4:65,4:66)"
+    cpu[0]="1:1:1:1"
+    cpu[1]="2:1:1:2"
+    cpu[2]="3:1:1:3"
+    cpu[3]="4:1:1:4"
+    cpu[4]="5:1:1:5"
+    cpu[5]="6:1:1:6"
+    cpu[6]="7:1:1:7"
+    cpu[7]="8:1:1:8"
+    cpu[8]="9:1:2:1"
+    cpu[9]="10:1:2:2"
+    cpu[10]="11:1:2:3"
+    cpu[11]="12:1:2:4"
+    cpu[12]="13:1:2:5"
+    cpu[13]="14:1:2:6"
+    cpu[14]="15:1:2:7"
+    cpu[15]="16:1:2:8"
+    cpu[16]="17:1:3:1"
+    cpu[17]="18:1:3:2"
+    cpu[18]="19:1:3:3"
+    cpu[19]="20:1:3:4"
+    cpu[20]="21:1:3:5"
+    cpu[21]="22:1:3:6"
+    cpu[22]="23:1:3:7"
+    cpu[23]="24:1:3:8"
+    cpu[24]="25:1:4:1"
+    cpu[25]="26:1:4:2"
+    cpu[26]="27:1:4:3"
+    cpu[27]="28:1:4:4"
+    cpu[28]="29:1:4:5"
+    cpu[29]="30:1:4:6"
+    cpu[30]="31:1:4:7"
+    cpu[31]="32:1:4:8"
+    cpu[32]="33:1:5:1"
+    cpu[33]="34:1:5:2"
+    cpu[34]="35:1:5:3"
+    cpu[35]="36:1:5:4"
+    cpu[36]="37:1:5:5"
+    cpu[37]="38:1:5:6"
+    cpu[38]="39:1:5:7"
+    cpu[39]="40:1:5:8"
+    cpu[40]="41:1:6:1"
+    cpu[41]="42:1:6:2"
+    cpu[42]="43:1:6:3"
+    cpu[43]="44:1:6:4"
+    cpu[44]="45:1:6:5"
+    cpu[45]="46:1:6:6"
+    cpu[46]="47:1:6:7"
+    cpu[47]="48:1:6:8"
+    cpu[48]="49:1:7:1"
+    cpu[49]="50:1:7:2"
+    cpu[50]="51:1:7:3"
+    cpu[51]="52:1:7:4"
+    cpu[52]="53:1:7:5"
+    cpu[53]="54:1:7:6"
+    cpu[54]="55:1:7:7"
+    cpu[55]="56:1:7:8"
+    cpu[56]="57:1:8:1"
+    cpu[57]="58:1:8:2"
+    cpu[58]="59:1:8:3"
+    cpu[59]="60:1:8:4"
+    cpu[60]="61:1:8:5"
+    cpu[61]="62:1:8:6"
+    cpu[62]="63:1:8:7"
+    cpu[63]="64:1:8:8"
+    cpu[64]="65:1:9:1"
+    cpu[65]="66:1:9:2"
+    cpu[66]="67:1:9:3"
+    cpu[67]="68:1:9:4"
+    cpu[68]="69:1:9:5"
+    cpu[69]="70:1:9:6"
+    cpu[70]="71:1:9:7"
+    cpu[71]="72:1:9:8"
+    cpu[72]="73:1:10:1"
+    cpu[73]="74:1:10:2"
+    cpu[74]="75:1:10:3"
+    cpu[75]="76:1:10:4"
+    cpu[76]="77:1:10:5"
+    cpu[77]="78:1:10:6"
+    cpu[78]="79:1:10:7"
+    cpu[79]="80:1:10:8"
+    cpu[80]="81:1:11:1"
+    cpu[81]="82:1:11:2"
+    cpu[82]="83:1:11:3"
+    cpu[83]="84:1:11:4"
+    cpu[84]="85:1:11:5"
+    cpu[85]="86:1:11:6"
+    cpu[86]="87:1:11:7"
+    cpu[87]="88:1:11:8"
+    cpu[88]="89:1:12:1"
+    cpu[89]="90:1:12:2"
+    cpu[90]="91:1:12:3"
+    cpu[91]="92:1:12:4"
+    cpu[92]="93:1:12:5"
+    cpu[93]="94:1:12:6"
+    cpu[94]="95:1:12:7"
+    cpu[95]="96:1:12:8"
+    cpu[96]="97:1:13:1"
+    cpu[97]="98:1:13:2"
+    cpu[98]="99:1:13:3"
+    cpu[99]="100:1:13:4"
+    cpu[100]="101:1:13:5"
+    cpu[101]="102:1:13:6"
+    cpu[102]="103:1:13:7"
+    cpu[103]="104:1:13:8"
+    cpu[104]="105:1:14:1"
+    cpu[105]="106:1:14:2"
+    cpu[106]="107:1:14:3"
+    cpu[107]="108:1:14:4"
+    cpu[108]="109:1:14:5"
+    cpu[109]="110:1:14:6"
+    cpu[110]="111:1:14:7"
+    cpu[111]="112:1:14:8"
+    cpu[112]="113:1:15:1"
+    cpu[113]="114:1:15:2"
+    cpu[114]="115:1:15:3"
+    cpu[115]="116:1:15:4"
+    cpu[116]="117:1:15:5"
+    cpu[117]="118:1:15:6"
+    cpu[118]="119:1:15:7"
+    cpu[119]="120:1:15:8"
+    cpu[120]="121:1:16:1"
+    cpu[121]="122:1:16:2"
+    cpu[122]="123:1:16:3"
+    cpu[123]="124:1:16:4"
+    cpu[124]="125:1:16:5"
+    cpu[125]="126:1:16:6"
+    cpu[126]="127:1:16:7"
+    cpu[127]="128:1:16:8"
+    cpu[128]="129:1:17:1"
+    cpu[129]="130:1:17:2"
+    cpu[130]="131:1:17:3"
+    cpu[131]="132:1:17:4"
+    cpu[132]="133:1:17:5"
+    cpu[133]="134:1:17:6"
+    cpu[134]="135:1:17:7"
+    cpu[135]="136:1:17:8"
+    cpu[136]="137:1:18:1"
+    cpu[137]="138:1:18:2"
+    cpu[138]="139:1:18:3"
+    cpu[139]="140:1:18:4"
+    cpu[140]="141:1:18:5"
+    cpu[141]="142:1:18:6"
+    cpu[142]="143:1:18:7"
+    cpu[143]="144:1:18:8"
+    cpu[144]="145:1:19:1"
+    cpu[145]="146:1:19:2"
+    cpu[146]="147:1:19:3"
+    cpu[147]="148:1:19:4"
+    cpu[148]="149:1:19:5"
+    cpu[149]="150:1:19:6"
+    cpu[150]="151:1:19:7"
+    cpu[151]="152:1:19:8"
+    cpu[152]="153:1:20:1"
+    cpu[153]="154:1:20:2"
+    cpu[154]="155:1:20:3"
+    cpu[155]="156:1:20:4"
+    cpu[156]="157:1:20:5"
+    cpu[157]="158:1:20:6"
+    cpu[158]="159:1:20:7"
+    cpu[159]="160:1:20:8"
+    cpu[160]="161:1:21:1"
+    cpu[161]="162:1:21:2"
+    cpu[162]="163:1:21:3"
+    cpu[163]="164:1:21:4"
+    cpu[164]="165:1:21:5"
+    cpu[165]="166:1:21:6"
+    cpu[166]="167:1:21:7"
+    cpu[167]="168:1:21:8"
+    cpu[168]="169:1:22:1"
+    cpu[169]="170:1:22:2"
+    cpu[170]="171:1:22:3"
+    cpu[171]="172:1:22:4"
+    cpu[172]="173:1:22:5"
+    cpu[173]="174:1:22:6"
+    cpu[174]="175:1:22:7"
+    cpu[175]="176:1:22:8"
+    cpu[176]="177:1:23:1"
+    cpu[177]="178:1:23:2"
+    cpu[178]="179:1:23:3"
+    cpu[179]="180:1:23:4"
+    cpu[180]="181:1:23:5"
+    cpu[181]="182:1:23:6"
+    cpu[182]="183:1:23:7"
+    cpu[183]="184:1:23:8"
+    cpu[184]="185:1:24:1"
+    cpu[185]="186:1:24:2"
+    cpu[186]="187:1:24:3"
+    cpu[187]="188:1:24:4"
+    cpu[188]="189:1:24:5"
+    cpu[189]="190:1:24:6"
+    cpu[190]="191:1:24:7"
+    cpu[191]="192:1:24:8"
+    cpu[192]="193:1:25:1"
+    cpu[193]="194:1:25:2"
+    cpu[194]="195:1:25:3"
+    cpu[195]="196:1:25:4"
+    cpu[196]="197:1:25:5"
+    cpu[197]="198:1:25:6"
+    cpu[198]="199:1:25:7"
+    cpu[199]="200:1:25:8"
+    cpu[200]="201:1:26:1"
+    cpu[201]="202:1:26:2"
+    cpu[202]="203:1:26:3"
+    cpu[203]="204:1:26:4"
+    cpu[204]="205:1:26:5"
+    cpu[205]="206:1:26:6"
+    cpu[206]="207:1:26:7"
+    cpu[207]="208:1:26:8"
+    cpu[208]="209:1:27:1"
+    cpu[209]="210:1:27:2"
+    cpu[210]="211:1:27:3"
+    cpu[211]="212:1:27:4"
+    cpu[212]="213:1:27:5"
+    cpu[213]="214:1:27:6"
+    cpu[214]="215:1:27:7"
+    cpu[215]="216:1:27:8"
+    cpu[216]="217:1:28:1"
+    cpu[217]="218:1:28:2"
+    cpu[218]="219:1:28:3"
+    cpu[219]="220:1:28:4"
+    cpu[220]="221:1:28:5"
+    cpu[221]="222:1:28:6"
+    cpu[222]="223:1:28:7"
+    cpu[223]="224:1:28:8"
+    cpu[224]="225:1:29:1"
+    cpu[225]="226:1:29:2"
+    cpu[226]="227:1:29:3"
+    cpu[227]="228:1:29:4"
+    cpu[228]="229:1:29:5"
+    cpu[229]="230:1:29:6"
+    cpu[230]="231:1:29:7"
+    cpu[231]="232:1:29:8"
+    cpu[232]="233:1:30:1"
+    cpu[233]="234:1:30:2"
+    cpu[234]="235:1:30:3"
+    cpu[235]="236:1:30:4"
+    cpu[236]="237:1:30:5"
+    cpu[237]="238:1:30:6"
+    cpu[238]="239:1:30:7"
+    cpu[239]="240:1:30:8"
+    cpu[240]="241:1:31:1"
+    cpu[241]="242:1:31:2"
+    cpu[242]="243:1:31:3"
+    cpu[243]="244:1:31:4"
+    cpu[244]="245:1:31:5"
+    cpu[245]="246:1:31:6"
+    cpu[246]="247:1:31:7"
+    cpu[247]="248:1:31:8"
+    cpu[248]="249:1:32:1"
+    cpu[249]="250:1:32:2"
+    cpu[250]="251:1:32:3"
+    cpu[251]="252:1:32:4"
+    cpu[252]="253:1:32:5"
+    cpu[253]="254:1:32:6"
+    cpu[254]="255:1:32:7"
+    cpu[255]="256:1:32:8"
+    cpu[256]="257:1:33:1"
+    cpu[257]="258:1:33:2"
+    cpu[258]="259:1:33:3"
+    cpu[259]="260:1:33:4"
+    cpu[260]="261:1:33:5"
+    cpu[261]="262:1:33:6"
+    cpu[262]="263:1:33:7"
+    cpu[263]="264:1:33:8"
+    cpu[264]="265:1:34:1"
+    cpu[265]="266:1:34:2"
+    cpu[266]="267:1:34:3"
+    cpu[267]="268:1:34:4"
+    cpu[268]="269:1:34:5"
+    cpu[269]="270:1:34:6"
+    cpu[270]="271:1:34:7"
+    cpu[271]="272:1:34:8"
+    cpu[272]="273:1:35:1"
+    cpu[273]="274:1:35:2"
+    cpu[274]="275:1:35:3"
+    cpu[275]="276:1:35:4"
+    cpu[276]="277:1:35:5"
+    cpu[277]="278:1:35:6"
+    cpu[278]="279:1:35:7"
+    cpu[279]="280:1:35:8"
+    cpu[280]="281:1:36:1"
+    cpu[281]="282:1:36:2"
+    cpu[282]="283:1:36:3"
+    cpu[283]="284:1:36:4"
+    cpu[284]="285:1:36:5"
+    cpu[285]="286:1:36:6"
+    cpu[286]="287:1:36:7"
+    cpu[287]="288:1:36:8"
+    cpu[288]="289:1:37:1"
+    cpu[289]="290:1:37:2"
+    cpu[290]="291:1:37:3"
+    cpu[291]="292:1:37:4"
+    cpu[292]="293:1:37:5"
+    cpu[293]="294:1:37:6"
+    cpu[294]="295:1:37:7"
+    cpu[295]="296:1:37:8"
+    cpu[296]="297:1:38:1"
+    cpu[297]="298:1:38:2"
+    cpu[298]="299:1:38:3"
+    cpu[299]="300:1:38:4"
+    cpu[300]="301:1:38:5"
+    cpu[301]="302:1:38:6"
+    cpu[302]="303:1:38:7"
+    cpu[303]="304:1:38:8"
+    cpu[304]="305:1:39:1"
+    cpu[305]="306:1:39:2"
+    cpu[306]="307:1:39:3"
+    cpu[307]="308:1:39:4"
+    cpu[308]="309:1:39:5"
+    cpu[309]="310:1:39:6"
+    cpu[310]="311:1:39:7"
+    cpu[311]="312:1:39:8"
+    cpu[312]="313:1:40:1"
+    cpu[313]="314:1:40:2"
+    cpu[314]="315:1:40:3"
+    cpu[315]="316:1:40:4"
+    cpu[316]="317:1:40:5"
+    cpu[317]="318:1:40:6"
+    cpu[318]="319:1:40:7"
+    cpu[319]="320:1:40:8"
+    cpu[320]="321:1:41:1"
+    cpu[321]="322:1:41:2"
+    cpu[322]="323:1:41:3"
+    cpu[323]="324:1:41:4"
+    cpu[324]="325:1:41:5"
+    cpu[325]="326:1:41:6"
+    cpu[326]="327:1:41:7"
+    cpu[327]="328:1:41:8"
+    cpu[328]="329:1:42:1"
+    cpu[329]="330:1:42:2"
+    cpu[330]="331:1:42:3"
+    cpu[331]="332:1:42:4"
+    cpu[332]="333:1:42:5"
+    cpu[333]="334:1:42:6"
+    cpu[334]="335:1:42:7"
+    cpu[335]="336:1:42:8"
+    cpu[336]="337:1:43:1"
+    cpu[337]="338:1:43:2"
+    cpu[338]="339:1:43:3"
+    cpu[339]="340:1:43:4"
+    cpu[340]="341:1:43:5"
+    cpu[341]="342:1:43:6"
+    cpu[342]="343:1:43:7"
+    cpu[343]="344:1:43:8"
+    cpu[344]="345:1:44:1"
+    cpu[345]="346:1:44:2"
+    cpu[346]="347:1:44:3"
+    cpu[347]="348:1:44:4"
+    cpu[348]="349:1:44:5"
+    cpu[349]="350:1:44:6"
+    cpu[350]="351:1:44:7"
+    cpu[351]="352:1:44:8"
+    cpu[352]="353:1:45:1"
+    cpu[353]="354:1:45:2"
+    cpu[354]="355:1:45:3"
+    cpu[355]="356:1:45:4"
+    cpu[356]="357:1:45:5"
+    cpu[357]="358:1:45:6"
+    cpu[358]="359:1:45:7"
+    cpu[359]="360:1:45:8"
+    cpu[360]="361:1:46:1"
+    cpu[361]="362:1:46:2"
+    cpu[362]="363:1:46:3"
+    cpu[363]="364:1:46:4"
+    cpu[364]="365:1:46:5"
+    cpu[365]="366:1:46:6"
+    cpu[366]="367:1:46:7"
+    cpu[367]="368:1:46:8"
+    cpu[368]="369:1:47:1"
+    cpu[369]="370:1:47:2"
+    cpu[370]="371:1:47:3"
+    cpu[371]="372:1:47:4"
+    cpu[372]="373:1:47:5"
+    cpu[373]="374:1:47:6"
+    cpu[374]="375:1:47:7"
+    cpu[375]="376:1:47:8"
+    cpu[376]="377:1:48:1"
+    cpu[377]="378:1:48:2"
+    cpu[378]="379:1:48:3"
+    cpu[379]="380:1:48:4"
+    cpu[380]="381:1:48:5"
+    cpu[381]="382:1:48:6"
+    cpu[382]="383:1:48:7"
+    cpu[383]="384:1:48:8"
+    cpu[384]="385:1:49:1"
+    cpu[385]="386:1:49:2"
+    cpu[386]="387:1:49:3"
+    cpu[387]="388:1:49:4"
+    cpu[388]="389:1:49:5"
+    cpu[389]="390:1:49:6"
+    cpu[390]="391:1:49:7"
+    cpu[391]="392:1:49:8"
+    cpu[392]="393:1:50:1"
+    cpu[393]="394:1:50:2"
+    cpu[394]="395:1:50:3"
+    cpu[395]="396:1:50:4"
+    cpu[396]="397:1:50:5"
+    cpu[397]="398:1:50:6"
+    cpu[398]="399:1:50:7"
+    cpu[399]="400:1:50:8"
+    cpu[400]="401:1:51:1"
+    cpu[401]="402:1:51:2"
+    cpu[402]="403:1:51:3"
+    cpu[403]="404:1:51:4"
+    cpu[404]="405:1:51:5"
+    cpu[405]="406:1:51:6"
+    cpu[406]="407:1:51:7"
+    cpu[407]="408:1:51:8"
+    cpu[408]="409:1:52:1"
+    cpu[409]="410:1:52:2"
+    cpu[410]="411:1:52:3"
+    cpu[411]="412:1:52:4"
+    cpu[412]="413:1:52:5"
+    cpu[413]="414:1:52:6"
+    cpu[414]="415:1:52:7"
+    cpu[415]="416:1:52:8"
+    cpu[416]="417:1:53:1"
+    cpu[417]="418:1:53:2"
+    cpu[418]="419:1:53:3"
+    cpu[419]="420:1:53:4"
+    cpu[420]="421:1:53:5"
+    cpu[421]="422:1:53:6"
+    cpu[422]="423:1:53:7"
+    cpu[423]="424:1:53:8"
+    cpu[424]="425:1:54:1"
+    cpu[425]="426:1:54:2"
+    cpu[426]="427:1:54:3"
+    cpu[427]="428:1:54:4"
+    cpu[428]="429:1:54:5"
+    cpu[429]="430:1:54:6"
+    cpu[430]="431:1:54:7"
+    cpu[431]="432:1:54:8"
+    cpu[432]="433:1:55:1"
+    cpu[433]="434:1:55:2"
+    cpu[434]="435:1:55:3"
+    cpu[435]="436:1:55:4"
+    cpu[436]="437:1:55:5"
+    cpu[437]="438:1:55:6"
+    cpu[438]="439:1:55:7"
+    cpu[439]="440:1:55:8"
+    cpu[440]="441:1:56:1"
+    cpu[441]="442:1:56:2"
+    cpu[442]="443:1:56:3"
+    cpu[443]="444:1:56:4"
+    cpu[444]="445:1:56:5"
+    cpu[445]="446:1:56:6"
+    cpu[446]="447:1:56:7"
+    cpu[447]="448:1:56:8"
+    cpu[448]="449:1:57:1"
+    cpu[449]="450:1:57:2"
+    cpu[450]="451:1:57:3"
+    cpu[451]="452:1:57:4"
+    cpu[452]="453:1:57:5"
+    cpu[453]="454:1:57:6"
+    cpu[454]="455:1:57:7"
+    cpu[455]="456:1:57:8"
+    cpu[456]="457:1:58:1"
+    cpu[457]="458:1:58:2"
+    cpu[458]="459:1:58:3"
+    cpu[459]="460:1:58:4"
+    cpu[460]="461:1:58:5"
+    cpu[461]="462:1:58:6"
+    cpu[462]="463:1:58:7"
+    cpu[463]="464:1:58:8"
+    cpu[464]="465:1:59:1"
+    cpu[465]="466:1:59:2"
+    cpu[466]="467:1:59:3"
+    cpu[467]="468:1:59:4"
+    cpu[468]="469:1:59:5"
+    cpu[469]="470:1:59:6"
+    cpu[470]="471:1:59:7"
+    cpu[471]="472:1:59:8"
+    cpu[472]="473:1:60:1"
+    cpu[473]="474:1:60:2"
+    cpu[474]="475:1:60:3"
+    cpu[475]="476:1:60:4"
+    cpu[476]="477:1:60:5"
+    cpu[477]="478:1:60:6"
+    cpu[478]="479:1:60:7"
+    cpu[479]="480:1:60:8"
+    cpu[480]="481:1:61:1"
+    cpu[481]="482:1:61:2"
+    cpu[482]="483:1:61:3"
+    cpu[483]="484:1:61:4"
+    cpu[484]="485:1:61:5"
+    cpu[485]="486:1:61:6"
+    cpu[486]="487:1:61:7"
+    cpu[487]="488:1:61:8"
+    cpu[488]="489:1:62:1"
+    cpu[489]="490:1:62:2"
+    cpu[490]="491:1:62:3"
+    cpu[491]="492:1:62:4"
+    cpu[492]="493:1:62:5"
+    cpu[493]="494:1:62:6"
+    cpu[494]="495:1:62:7"
+    cpu[495]="496:1:62:8"
+    cpu[496]="497:1:63:1"
+    cpu[497]="498:1:63:2"
+    cpu[498]="499:1:63:3"
+    cpu[499]="500:1:63:4"
+    cpu[500]="501:1:63:5"
+    cpu[501]="502:1:63:6"
+    cpu[502]="503:1:63:7"
+    cpu[503]="504:1:63:8"
+    cpu[504]="505:1:64:1"
+    cpu[505]="506:1:64:2"
+    cpu[506]="507:1:64:3"
+    cpu[507]="508:1:64:4"
+    cpu[508]="509:1:64:5"
+    cpu[509]="510:1:64:6"
+    cpu[510]="511:1:64:7"
+    cpu[511]="512:1:64:8"
+    cpu[512]="513:1:65:1"
+    cpu[513]="514:1:65:2"
+    cpu[514]="515:1:65:3"
+    cpu[515]="516:1:65:4"
+    cpu[516]="517:1:66:1"
+    cpu[517]="518:1:66:2"
+    cpu[518]="519:1:66:3"
+    cpu[519]="520:1:66:4"
+
+    cat > $ROW_FILE << EOF
+LEVEL TASK SIZE 66
+Formic 0x00
+Formic 0x01
+Formic 0x02
+Formic 0x03
+Formic 0x04
+Formic 0x05
+Formic 0x06
+Formic 0x07
+Formic 0x08
+Formic 0x09
+Formic 0x0A
+Formic 0x0B
+Formic 0x0C
+Formic 0x0D
+Formic 0x0E
+Formic 0x0F
+Formic 0x10
+Formic 0x11
+Formic 0x12
+Formic 0x13
+Formic 0x14
+Formic 0x15
+Formic 0x16
+Formic 0x17
+Formic 0x18
+Formic 0x19
+Formic 0x1A
+Formic 0x1B
+Formic 0x1C
+Formic 0x1D
+Formic 0x1E
+Formic 0x1F
+Formic 0x20
+Formic 0x21
+Formic 0x22
+Formic 0x23
+Formic 0x24
+Formic 0x25
+Formic 0x26
+Formic 0x27
+Formic 0x28
+Formic 0x29
+Formic 0x2A
+Formic 0x2B
+Formic 0x2C
+Formic 0x2D
+Formic 0x2E
+Formic 0x2F
+Formic 0x30
+Formic 0x31
+Formic 0x32
+Formic 0x33
+Formic 0x34
+Formic 0x35
+Formic 0x36
+Formic 0x37
+Formic 0x38
+Formic 0x39
+Formic 0x3A
+Formic 0x3B
+Formic 0x3C
+Formic 0x3D
+Formic 0x3E
+Formic 0x3F
+ARM 0x4B     
+ARM 0x6B     
+
+LEVEL CPU SIZE 520
+[0x00/0] Worker 0        
+[0x00/1] Worker 1        
+[0x00/2] Worker 2        
+[0x00/3] Worker 3        
+[0x00/4] Worker 4        
+[0x00/5] Worker 5        
+[0x00/6] Worker 6        
+[0x00/7] Scheduler 0     
+[0x01/0] Worker 7        
+[0x01/1] Worker 8        
+[0x01/2] Worker 9        
+[0x01/3] Worker 10       
+[0x01/4] Worker 11       
+[0x01/5] Worker 12       
+[0x01/6] Worker 13       
+[0x01/7] Scheduler 1     
+[0x02/0] Worker 14       
+[0x02/1] Worker 15       
+[0x02/2] Worker 16       
+[0x02/3] Worker 17       
+[0x02/4] Worker 18       
+[0x02/5] Worker 19       
+[0x02/6] Worker 20       
+[0x02/7] Scheduler 2     
+[0x03/0] Worker 21       
+[0x03/1] Worker 22       
+[0x03/2] Worker 23       
+[0x03/3] Worker 24       
+[0x03/4] Worker 25       
+[0x03/5] Worker 26       
+[0x03/6] Worker 27       
+[0x03/7] Scheduler 3     
+[0x04/0] Worker 28       
+[0x04/1] Worker 29       
+[0x04/2] Worker 30       
+[0x04/3] Worker 31       
+[0x04/4] Worker 32       
+[0x04/5] Worker 33       
+[0x04/6] Worker 34       
+[0x04/7] Scheduler 4     
+[0x05/0] Worker 35       
+[0x05/1] Worker 36       
+[0x05/2] Worker 37       
+[0x05/3] Worker 38       
+[0x05/4] Worker 39       
+[0x05/5] Worker 40       
+[0x05/6] Worker 41       
+[0x05/7] Scheduler 5     
+[0x06/0] Worker 42       
+[0x06/1] Worker 43       
+[0x06/2] Worker 44       
+[0x06/3] Worker 45       
+[0x06/4] Worker 46       
+[0x06/5] Worker 47       
+[0x06/6] Worker 48       
+[0x06/7] Scheduler 6     
+[0x07/0] Worker 49       
+[0x07/1] Worker 50       
+[0x07/2] Worker 51       
+[0x07/3] Worker 52       
+[0x07/4] Worker 53       
+[0x07/5] Worker 54       
+[0x07/6] Worker 55       
+[0x07/7] Scheduler 7     
+[0x08/0] Worker 56       
+[0x08/1] Worker 57       
+[0x08/2] Worker 58       
+[0x08/3] Worker 59       
+[0x08/4] Worker 60       
+[0x08/5] Worker 61       
+[0x08/6] Worker 62       
+[0x08/7] Scheduler 8     
+[0x09/0] Worker 63       
+[0x09/1] Worker 64       
+[0x09/2] Worker 65       
+[0x09/3] Worker 66       
+[0x09/4] Worker 67       
+[0x09/5] Worker 68       
+[0x09/6] Worker 69       
+[0x09/7] Scheduler 9     
+[0x0A/0] Worker 70       
+[0x0A/1] Worker 71       
+[0x0A/2] Worker 72       
+[0x0A/3] Worker 73       
+[0x0A/4] Worker 74       
+[0x0A/5] Worker 75       
+[0x0A/6] Worker 76       
+[0x0A/7] Scheduler 10    
+[0x0B/0] Worker 77       
+[0x0B/1] Worker 78       
+[0x0B/2] Worker 79       
+[0x0B/3] Worker 80       
+[0x0B/4] Worker 81       
+[0x0B/5] Worker 82       
+[0x0B/6] Worker 83       
+[0x0B/7] Scheduler 11    
+[0x0C/0] Worker 84       
+[0x0C/1] Worker 85       
+[0x0C/2] Worker 86       
+[0x0C/3] Worker 87       
+[0x0C/4] Worker 88       
+[0x0C/5] Worker 89       
+[0x0C/6] Worker 90       
+[0x0C/7] Scheduler 12    
+[0x0D/0] Worker 91       
+[0x0D/1] Worker 92       
+[0x0D/2] Worker 93       
+[0x0D/3] Worker 94       
+[0x0D/4] Worker 95       
+[0x0D/5] Worker 96       
+[0x0D/6] Worker 97       
+[0x0D/7] Scheduler 13    
+[0x0E/0] Worker 98       
+[0x0E/1] Worker 99       
+[0x0E/2] Worker 100      
+[0x0E/3] Worker 101      
+[0x0E/4] Worker 102      
+[0x0E/5] Worker 103      
+[0x0E/6] Worker 104      
+[0x0E/7] Scheduler 14    
+[0x0F/0] Worker 105      
+[0x0F/1] Worker 106      
+[0x0F/2] Worker 107      
+[0x0F/3] Worker 108      
+[0x0F/4] Worker 109      
+[0x0F/5] Worker 110      
+[0x0F/6] Worker 111      
+[0x0F/7] Scheduler 15    
+[0x10/0] Worker 112      
+[0x10/1] Worker 113      
+[0x10/2] Worker 114      
+[0x10/3] Worker 115      
+[0x10/4] Worker 116      
+[0x10/5] Worker 117      
+[0x10/6] Worker 118      
+[0x10/7] Scheduler 16    
+[0x11/0] Worker 119      
+[0x11/1] Worker 120      
+[0x11/2] Worker 121      
+[0x11/3] Worker 122      
+[0x11/4] Worker 123      
+[0x11/5] Worker 124      
+[0x11/6] Worker 125      
+[0x11/7] Scheduler 17    
+[0x12/0] Worker 126      
+[0x12/1] Worker 127      
+[0x12/2] Worker 128      
+[0x12/3] Worker 129      
+[0x12/4] Worker 130      
+[0x12/5] Worker 131      
+[0x12/6] Worker 132      
+[0x12/7] Scheduler 18    
+[0x13/0] Worker 133      
+[0x13/1] Worker 134      
+[0x13/2] Worker 135      
+[0x13/3] Worker 136      
+[0x13/4] Worker 137      
+[0x13/5] Worker 138      
+[0x13/6] Worker 139      
+[0x13/7] Scheduler 19    
+[0x14/0] Worker 140      
+[0x14/1] Worker 141      
+[0x14/2] Worker 142      
+[0x14/3] Worker 143      
+[0x14/4] Worker 144      
+[0x14/5] Worker 145      
+[0x14/6] Worker 146      
+[0x14/7] Scheduler 20    
+[0x15/0] Worker 147      
+[0x15/1] Worker 148      
+[0x15/2] Worker 149      
+[0x15/3] Worker 150      
+[0x15/4] Worker 151      
+[0x15/5] Worker 152      
+[0x15/6] Worker 153      
+[0x15/7] Scheduler 21    
+[0x16/0] Worker 154      
+[0x16/1] Worker 155      
+[0x16/2] Worker 156      
+[0x16/3] Worker 157      
+[0x16/4] Worker 158      
+[0x16/5] Worker 159      
+[0x16/6] Worker 160      
+[0x16/7] Scheduler 22    
+[0x17/0] Worker 161      
+[0x17/1] Worker 162      
+[0x17/2] Worker 163      
+[0x17/3] Worker 164      
+[0x17/4] Worker 165      
+[0x17/5] Worker 166      
+[0x17/6] Worker 167      
+[0x17/7] Scheduler 23    
+[0x18/0] Worker 168      
+[0x18/1] Worker 169      
+[0x18/2] Worker 170      
+[0x18/3] Worker 171      
+[0x18/4] Worker 172      
+[0x18/5] Worker 173      
+[0x18/6] Worker 174      
+[0x18/7] Scheduler 24    
+[0x19/0] Worker 175      
+[0x19/1] Worker 176      
+[0x19/2] Worker 177      
+[0x19/3] Worker 178      
+[0x19/4] Worker 179      
+[0x19/5] Worker 180      
+[0x19/6] Worker 181      
+[0x19/7] Scheduler 25    
+[0x1A/0] Worker 182      
+[0x1A/1] Worker 183      
+[0x1A/2] Worker 184      
+[0x1A/3] Worker 185      
+[0x1A/4] Worker 186      
+[0x1A/5] Worker 187      
+[0x1A/6] Worker 188      
+[0x1A/7] Scheduler 26    
+[0x1B/0] Worker 189      
+[0x1B/1] Worker 190      
+[0x1B/2] Worker 191      
+[0x1B/3] Worker 192      
+[0x1B/4] Worker 193      
+[0x1B/5] Worker 194      
+[0x1B/6] Worker 195      
+[0x1B/7] Scheduler 27    
+[0x1C/0] Worker 196      
+[0x1C/1] Worker 197      
+[0x1C/2] Worker 198      
+[0x1C/3] Worker 199      
+[0x1C/4] Worker 200      
+[0x1C/5] Worker 201      
+[0x1C/6] Worker 202      
+[0x1C/7] Scheduler 28    
+[0x1D/0] Worker 203      
+[0x1D/1] Worker 204      
+[0x1D/2] Worker 205      
+[0x1D/3] Worker 206      
+[0x1D/4] Worker 207      
+[0x1D/5] Worker 208      
+[0x1D/6] Worker 209      
+[0x1D/7] Scheduler 29    
+[0x1E/0] Worker 210      
+[0x1E/1] Worker 211      
+[0x1E/2] Worker 212      
+[0x1E/3] Worker 213      
+[0x1E/4] Worker 214      
+[0x1E/5] Worker 215      
+[0x1E/6] Worker 216      
+[0x1E/7] Scheduler 30    
+[0x1F/0] Worker 217      
+[0x1F/1] Worker 218      
+[0x1F/2] Worker 219      
+[0x1F/3] Worker 220      
+[0x1F/4] Worker 221      
+[0x1F/5] Worker 222      
+[0x1F/6] Worker 223      
+[0x1F/7] Scheduler 31    
+[0x20/0] Worker 224      
+[0x20/1] Worker 225      
+[0x20/2] Worker 226      
+[0x20/3] Worker 227      
+[0x20/4] Worker 228      
+[0x20/5] Worker 229      
+[0x20/6] Worker 230      
+[0x20/7] Scheduler 32    
+[0x21/0] Worker 231      
+[0x21/1] Worker 232      
+[0x21/2] Worker 233      
+[0x21/3] Worker 234      
+[0x21/4] Worker 235      
+[0x21/5] Worker 236      
+[0x21/6] Worker 237      
+[0x21/7] Scheduler 33    
+[0x22/0] Worker 238      
+[0x22/1] Worker 239      
+[0x22/2] Worker 240      
+[0x22/3] Worker 241      
+[0x22/4] Worker 242      
+[0x22/5] Worker 243      
+[0x22/6] Worker 244      
+[0x22/7] Scheduler 34    
+[0x23/0] Worker 245      
+[0x23/1] Worker 246      
+[0x23/2] Worker 247      
+[0x23/3] Worker 248      
+[0x23/4] Worker 249      
+[0x23/5] Worker 250      
+[0x23/6] Worker 251      
+[0x23/7] Scheduler 35    
+[0x24/0] Worker 252      
+[0x24/1] Worker 253      
+[0x24/2] Worker 254      
+[0x24/3] Worker 255      
+[0x24/4] Worker 256      
+[0x24/5] Worker 257      
+[0x24/6] Worker 258      
+[0x24/7] Scheduler 36    
+[0x25/0] Worker 259      
+[0x25/1] Worker 260      
+[0x25/2] Worker 261      
+[0x25/3] Worker 262      
+[0x25/4] Worker 263      
+[0x25/5] Worker 264      
+[0x25/6] Worker 265      
+[0x25/7] Scheduler 37    
+[0x26/0] Worker 266      
+[0x26/1] Worker 267      
+[0x26/2] Worker 268      
+[0x26/3] Worker 269      
+[0x26/4] Worker 270      
+[0x26/5] Worker 271      
+[0x26/6] Worker 272      
+[0x26/7] Scheduler 38    
+[0x27/0] Worker 273      
+[0x27/1] Worker 274      
+[0x27/2] Worker 275      
+[0x27/3] Worker 276      
+[0x27/4] Worker 277      
+[0x27/5] Worker 278      
+[0x27/6] Worker 279      
+[0x27/7] Scheduler 39    
+[0x28/0] Worker 280      
+[0x28/1] Worker 281      
+[0x28/2] Worker 282      
+[0x28/3] Worker 283      
+[0x28/4] Worker 284      
+[0x28/5] Worker 285      
+[0x28/6] Worker 286      
+[0x28/7] Scheduler 40    
+[0x29/0] Worker 287      
+[0x29/1] Worker 288      
+[0x29/2] Worker 289      
+[0x29/3] Worker 290      
+[0x29/4] Worker 291      
+[0x29/5] Worker 292      
+[0x29/6] Worker 293      
+[0x29/7] Scheduler 41    
+[0x2A/0] Worker 294      
+[0x2A/1] Worker 295      
+[0x2A/2] Worker 296      
+[0x2A/3] Worker 297      
+[0x2A/4] Worker 298      
+[0x2A/5] Worker 299      
+[0x2A/6] Worker 300      
+[0x2A/7] Scheduler 42    
+[0x2B/0] Worker 301      
+[0x2B/1] Worker 302      
+[0x2B/2] Worker 303      
+[0x2B/3] Worker 304      
+[0x2B/4] Worker 305      
+[0x2B/5] Worker 306      
+[0x2B/6] Worker 307      
+[0x2B/7] Scheduler 43    
+[0x2C/0] Worker 308      
+[0x2C/1] Worker 309      
+[0x2C/2] Worker 310      
+[0x2C/3] Worker 311      
+[0x2C/4] Worker 312      
+[0x2C/5] Worker 313      
+[0x2C/6] Worker 314      
+[0x2C/7] Scheduler 44    
+[0x2D/0] Worker 315      
+[0x2D/1] Worker 316      
+[0x2D/2] Worker 317      
+[0x2D/3] Worker 318      
+[0x2D/4] Worker 319      
+[0x2D/5] Worker 320      
+[0x2D/6] Worker 321      
+[0x2D/7] Scheduler 45    
+[0x2E/0] Worker 322      
+[0x2E/1] Worker 323      
+[0x2E/2] Worker 324      
+[0x2E/3] Worker 325      
+[0x2E/4] Worker 326      
+[0x2E/5] Worker 327      
+[0x2E/6] Worker 328      
+[0x2E/7] Scheduler 46    
+[0x2F/0] Worker 329      
+[0x2F/1] Worker 330      
+[0x2F/2] Worker 331      
+[0x2F/3] Worker 332      
+[0x2F/4] Worker 333      
+[0x2F/5] Worker 334      
+[0x2F/6] Worker 335      
+[0x2F/7] Scheduler 47    
+[0x30/0] Worker 336      
+[0x30/1] Worker 337      
+[0x30/2] Worker 338      
+[0x30/3] Worker 339      
+[0x30/4] Worker 340      
+[0x30/5] Worker 341      
+[0x30/6] Worker 342      
+[0x30/7] Scheduler 48    
+[0x31/0] Worker 343      
+[0x31/1] Worker 344      
+[0x31/2] Worker 345      
+[0x31/3] Worker 346      
+[0x31/4] Worker 347      
+[0x31/5] Worker 348      
+[0x31/6] Worker 349      
+[0x31/7] Scheduler 49    
+[0x32/0] Worker 350      
+[0x32/1] Worker 351      
+[0x32/2] Worker 352      
+[0x32/3] Worker 353      
+[0x32/4] Worker 354      
+[0x32/5] Worker 355      
+[0x32/6] Worker 356      
+[0x32/7] Scheduler 50    
+[0x33/0] Worker 357      
+[0x33/1] Worker 358      
+[0x33/2] Worker 359      
+[0x33/3] Worker 360      
+[0x33/4] Worker 361      
+[0x33/5] Worker 362      
+[0x33/6] Worker 363      
+[0x33/7] Scheduler 51    
+[0x34/0] Worker 364      
+[0x34/1] Worker 365      
+[0x34/2] Worker 366      
+[0x34/3] Worker 367      
+[0x34/4] Worker 368      
+[0x34/5] Worker 369      
+[0x34/6] Worker 370      
+[0x34/7] Scheduler 52    
+[0x35/0] Worker 371      
+[0x35/1] Worker 372      
+[0x35/2] Worker 373      
+[0x35/3] Worker 374      
+[0x35/4] Worker 375      
+[0x35/5] Worker 376      
+[0x35/6] Worker 377      
+[0x35/7] Scheduler 53    
+[0x36/0] Worker 378      
+[0x36/1] Worker 379      
+[0x36/2] Worker 380      
+[0x36/3] Worker 381      
+[0x36/4] Worker 382      
+[0x36/5] Worker 383      
+[0x36/6] Worker 384      
+[0x36/7] Scheduler 54    
+[0x37/0] Worker 385      
+[0x37/1] Worker 386      
+[0x37/2] Worker 387      
+[0x37/3] Worker 388      
+[0x37/4] Worker 389      
+[0x37/5] Worker 390      
+[0x37/6] Worker 391      
+[0x37/7] Scheduler 55    
+[0x38/0] Worker 392      
+[0x38/1] Worker 393      
+[0x38/2] Worker 394      
+[0x38/3] Worker 395      
+[0x38/4] Worker 396      
+[0x38/5] Worker 397      
+[0x38/6] Worker 398      
+[0x38/7] Scheduler 56    
+[0x39/0] Worker 399      
+[0x39/1] Worker 400      
+[0x39/2] Worker 401      
+[0x39/3] Worker 402      
+[0x39/4] Worker 403      
+[0x39/5] Worker 404      
+[0x39/6] Worker 405      
+[0x39/7] Scheduler 57    
+[0x3A/0] Worker 406      
+[0x3A/1] Worker 407      
+[0x3A/2] Worker 408      
+[0x3A/3] Worker 409      
+[0x3A/4] Worker 410      
+[0x3A/5] Worker 411      
+[0x3A/6] Worker 412      
+[0x3A/7] Scheduler 58    
+[0x3B/0] Worker 413      
+[0x3B/1] Worker 414      
+[0x3B/2] Worker 415      
+[0x3B/3] Worker 416      
+[0x3B/4] Worker 417      
+[0x3B/5] Worker 418      
+[0x3B/6] Worker 419      
+[0x3B/7] Scheduler 59    
+[0x3C/0] Worker 420      
+[0x3C/1] Worker 421      
+[0x3C/2] Worker 422      
+[0x3C/3] Worker 423      
+[0x3C/4] Worker 424      
+[0x3C/5] Worker 425      
+[0x3C/6] Worker 426      
+[0x3C/7] Scheduler 60    
+[0x3D/0] Worker 427      
+[0x3D/1] Worker 428      
+[0x3D/2] Worker 429      
+[0x3D/3] Worker 430      
+[0x3D/4] Worker 431      
+[0x3D/5] Worker 432      
+[0x3D/6] Worker 433      
+[0x3D/7] Scheduler 61    
+[0x3E/0] Worker 434      
+[0x3E/1] Worker 435      
+[0x3E/2] Worker 436      
+[0x3E/3] Worker 437      
+[0x3E/4] Worker 438      
+[0x3E/5] Worker 439      
+[0x3E/6] Worker 440      
+[0x3E/7] Scheduler 62    
+[0x3F/0] Worker 441      
+[0x3F/1] Worker 442      
+[0x3F/2] Worker 443      
+[0x3F/3] Worker 444      
+[0x3F/4] Worker 445      
+[0x3F/5] Worker 446      
+[0x3F/6] Worker 447      
+[0x3F/7] Scheduler 63    
+[0x4B/0] Scheduler 64    
+[0x4B/1] Scheduler 65    
+[0x4B/2] Scheduler 66    
+[0x4B/3] Scheduler 67    
+[0x6B/0] Scheduler 68    
+[0x6B/1] Scheduler 69    
+[0x6B/2] Scheduler 70    
+[0x6B/3] Scheduler 71    
+EOF
+    ;;
+
+  *) 
+    echo -e "\nUsage: paraver <core setup> [<event file>]\n"
+    echo -e "For <core setup> select one of the following:\n"
+    grep CFG_ $0 | grep -v grep | sed 's/)//'
+    echo
+    exit 1
+    ;;
+esac
+
+
+rm -f paraver.{dec,full,srt,raw,srt2,prv}
+
+if [[ $2 ]]
+then
+  event_file=$2
+else
+  event_file="paraver.evt"
+fi
+
+# ===========================================================================
+# Descramble event file per core and decode it from ASCII85
+# ===========================================================================
+
+echo Decoding event file...
+
+for (( i = 0; $i < ${#cpu[*]}; i++ ))
+do
+  enc=`grep "=== Core $i begin ===" $event_file -A100000 | \
+       grep "=== Core $i end ===" -B100000 | \
+       grep -v Core`
+  if [[ ! $enc ]]
+  then
+    echo "[1;31m======== ERROR: =======[0m"
+    echo "[1m Core $i data not found[0m"
+    echo "[1;31m========================[0m"
+    exit 1
+  fi
+  
+  echo "$enc" | ./misc/decode_ascii85 > paraver.dec
+
+  exec 3<paraver.dec
+
+  while read -u 3 a
+  do
+    read -u 3 b
+    let tstamp=0x$a
+    let evt=0x$b
+    echo $i $tstamp $evt >> paraver.full
+  done
+
+  exec 3>&-
+
+  rm paraver.dec
+
+done
+
+
+# ===========================================================================
+# Read event file, convert it to decimal and sort it w.r.t. timestamps
+# ===========================================================================
+
+echo Sorting events...
+
+sort -k2 -n paraver.full > paraver.srt
+rm paraver.full
+
+
+# ===========================================================================
+# Parse sorted file and create intermediate raw one
+# ===========================================================================
+
+echo Matching sends/recvs and creating raw file...
+
+exec 4<paraver.srt
+
+declare -A states # Associative array to remember state begins
+declare -A sends  # Associative array to remember sends
+
+begin_cnt=0
+end_cnt_matched=0
+end_cnt_unmatched=0
+send_cnt=0
+recv_cnt_matched=0
+recv_cnt_unmatched=0
+max_time=0
+while read -r -u 4 core tstamp evt
+do
+  (( typ = $evt >> 30 ))
+  if [ $typ -eq 0 ]
+  then
+    # Type 0: state begin
+    (( id = $evt & 0x3FFFFFFF ))
+    states[$core"|"$id]=$tstamp
+    #echo State begin $tstamp $core $id
+    (( begin_cnt++ ))
+  elif [ $typ -eq 1 ]
+  then
+    # Type 1: state end
+    (( id = $evt & 0x3FFFFFFF ))
+    #echo State end $tstamp $core $id
+    if [ ${states[$core"|"$id]} ]
+    then
+      echo s ${states[$core"|"$id]} $tstamp $core $id >> paraver.raw
+      (( end_cnt_matched++ ))
+    else
+      (( end_cnt_unmatched++ ))
+      #echo "[1;31m^^^ Unmatched![0m"
+    fi
+  elif [ $typ -eq 2 ]
+  then
+    # Type 2: send
+    (( dst = ($evt >> 20) & 0x3FF ))
+    (( id = $evt & 0xFFFFF ))
+    sends[$core"|"$dst"|"$id]=$tstamp
+    (( send_cnt++ ))
+    #echo "Send $core -> $dst at $tstamp, id=$id"
+  elif [ $typ -eq 3 ]
+  then
+    # Type 3: recv
+    (( src = ($evt >> 20) & 0x3FF ))
+    (( id = $evt & 0xFFFFF ))
+    #echo "Recv $core <- $src at $tstamp, id=$id"
+    if [ ${sends[$src"|"$core"|"$id]} ]
+    then
+      echo c ${sends[$src"|"$core"|"$id]} $tstamp $src $core >> paraver.raw
+      (( recv_cnt_matched++ ))
+    else
+      (( recv_cnt_unmatched++ ))
+      #echo "[1;31m^^^ Unmatched![0m"
+    fi
+  fi
+  if [ $tstamp -gt $max_time ]
+  then
+    max_time=$tstamp
+  fi
+done
+
+rm paraver.srt
+
+echo "  State begins: $begin_cnt"
+echo "  State ends: $end_cnt_matched matched, $end_cnt_unmatched unmatched"
+echo "  Sends: $send_cnt"
+echo "  Receives: $recv_cnt_matched matched, $recv_cnt_unmatched unmatched"
+
+if [ $recv_cnt_unmatched -gt 0 ]
+then
+  echo "[1;31m================= WARNING: ====================[0m"
+  echo "[1m There were $recv_cnt_unmatched unmatched receives[0m"
+  echo "[1;31m===============================================[0m"
+fi
+if [ $end_cnt_unmatched -gt 0 ]
+then
+  echo "[1;31m================= WARNING: ====================[0m"
+  echo "[1m There were $end_cnt_unmatched unmatched states[0m"
+  echo "[1;31m===============================================[0m"
+fi
+
+# ===========================================================================
+# Sort raw file
+# ===========================================================================
+
+echo Re-sorting...
+
+sort -k2 -n paraver.raw > paraver.srt2
+rm paraver.raw
+
+# ===========================================================================
+# Create final trace
+# ===========================================================================
+
+echo Creating Paraver trace file...
+
+echo "Paraver (01/01/1789 at 12:00):$max_time:$header" > paraver.prv
+
+exec 5<paraver.srt2
+
+while read -r -u 5 typ tstamp f3 f4 f5
+do
+  if [[ $typ == "s" ]]
+  then
+    # State
+    echo 1:${cpu[$f4]}:$tstamp:$f3:$f5 >> paraver.prv
+  elif [[ $typ == "e" ]]
+  then
+    # Event (unused for the moment)
+    echo 2:${cpu[$f3]}:$tstamp:$f4:0 >> paraver.prv
+  elif [[ $typ == "c" ]]
+  then
+    # Communication
+    echo 3:${cpu[$f4]}:$tstamp:$tstamp:${cpu[$f5]}:$f3:$f3 >> paraver.prv
+  fi
+done
+
+rm paraver.srt2
+
+# ===========================================================================
+# Run Paraver
+# ===========================================================================
+export PARAVER_HOME=/home/lyberis/tools/wxparaver64
+export PATH=$PARAVER_HOME/bin:$PATH
+
+wxparaver paraver.prv paraver.cfg
+
